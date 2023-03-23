@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Cursos</title>
+  <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+  <!-- styles -->
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/card-stamp.css">
+</head>
+
+<body class="antialiased">
+  <div class="wrapper">
+    <%- include('../../../partials/header') %>
+    <%- include('../../../partials/navbar', {opcion: 'FORMACION'}) %>
+    <div class="page-header d-print-none">
+      <div class="container-xl">
+        <div class="row align-items-center">
+          <div class="col">
+            <h1 class="page-title pt-2 mb-2">
+              Cursos
+            </h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="page-wrapper">
+      <div class="page-body">
+        <div class="container-xl">
+          <div class="row row-cards">
+            <% if (datos.cursos.length === 0) { %> 
+              <p class="text-center">
+                El listado de cursos no contiene elementos
+              </p>
+            <% } %> 
+            <% datos.cursos.map(itm => { %>
+            <div class="col-12">
+              <div class="card">
+                <div class="card-stamp">
+                  <div class="card-stamp-icon bg-yellow">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                      stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                      <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6">
+                      </path>
+                      <path d="M9 17v1a3 3 0 0 0 6 0v-1"></path>
+                    </svg>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h3 class="card-title"><%- itm.DESCUR %></h3>
+                  <p class="text-muted">
+                    <%= itm.NOTCUR %>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%- include('../../../partials/footer') %>
+  </div>
+
+  <script src="/js/ayuda.min.js"></script>
+</body>
+
+</html>

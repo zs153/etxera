@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Estados</title>
+  <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+  <!-- styles -->
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body class="antialiased">
+  <div class="page-wrapper">
+    <%- include('../../partials/header') %>
+    <%- include('../../partials/navbar', {opcion: 'ESTADO' }) %>
+    <div class="page page-center">
+      <div class="container container-lg mt-4">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <form action="/admin/estados/estados" method="POST" onsubmit="return validate();">
+                <input type="hidden" id="desofi" name="desofi">
+                <input type="hidden" id="desper" name="desper">
+                <input type="hidden" id="desde" name="desde" value="<%- datos.desde %>">
+                <input type="hidden" id="hasta" name="hasta" value="<%- datos.hasta %>">
+                <div class="card-header">
+                  <h3 class="card-title">Estados</h3>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="mb-1">
+                        <div class="form-label">Oficina</div>
+                        <select class="form-select" id="cboofi" name="ofiest" value="">
+                          <% if (datos.oficinas.length > 1) { %>
+                          <option value="0">DESCENTRALIZADAS</option>
+                          <% } %>
+                          <% datos.oficinas.map(element=> { %>
+                          <option value="<%- element.IDOFIC %>">
+                            <%- element.DESOFI %>
+                          </option>
+                          <% }) %>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="mb-1">
+                        <div class="form-label">Perfil</div>
+                        <select class="form-select" id="cboper" name="perusu" value="">
+                          <% datos.arrTiposPerfil.map(element=> { %>
+                          <option value="<%- element.id %>"<%- element.des === "INFORMADOR" ? " selected":"" %>>
+                            <%- element.des %>
+                          </option>
+                          <% }) %>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="mb-1">
+                        <div class="input-control">
+                          <label class="form-label required">Fecha inicio</label>
+                          <input type="date" name="desfec" id="desfec" class="form-control" />
+                          <div class="invalid-feedback"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="mb-1">
+                        <div class="form-label">Formato</div>
+                        <select class="form-select" id="cbofor" name="format" value="">
+                          <option value="1">MENSUAL</option>
+                          <option value="2">SEMANAL</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer text-end">
+                  <div class="d-flex">
+                    <button type="submit" class="btn btn-primary ms-auto">Ver estados</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%- include('../../partials/footer') %>
+  </div>
+  <script src="/js/ayuda.min.js"></script>
+  <script>
+    const cboO = document.getElementById('cboofi');
+    const cboP = document.getElementById('cboper');
+
+    document.querySelector("#desfec").value = new Date().toISOString().slice(0, 10)
+    document.getElementById('desofi').value = cboO[cboO.selectedIndex].text
+    document.getElementById('desper').value = cboP[cboP.selectedIndex].text
+
+    cboO.addEventListener('change', (e) => {
+      document.getElementById('desofi').value = e.target.options[e.target.selectedIndex].text
+    })
+    cboP.addEventListener('change', (e) => {
+      document.getElementById('desper').value = e.target.options[e.target.selectedIndex].text
+    })
+  </script>
+
+  <script>
+    const desfec = document.getElementById('desfec')
+
+    const dateISOToUTCString = (dateISO) => {
+      const fecha = new Date(dateISO);
+      const userTimezoneOffset = fecha.getTimezoneOffset() * 60000;
+      return new Date(fecha.getTime() - userTimezoneOffset).toISOString().slice(0, 10);
+    }
+    const setSuccess = (element) => {
+      const inputControl = element.parentElement;
+      const errorDisplay = inputControl.querySelector('.invalid-feedback');
+
+      errorDisplay.innerText = '';
+      inputControl.classList.add('is-valid');
+      element.classList.remove('is-invalid');
+    }
+    const setError = (element, message) => {
+      const inputControl = element.parentElement;
+      const errorDisplay = inputControl.querySelector('.invalid-feedback');
+
+      errorDisplay.innerText = message;
+      element.classList.add('is-invalid');
+      inputControl.classList.remove('is-valid');
+    }
+    const validate = () => {
+      const desfecValue = desfec.value.trim()
+
+      if (isNaN(Date.parse(desfecValue))) {
+        setError(desfec, 'Fecha requerida')
+        setTimeout(function () {
+          setSuccess(desfec)
+        }, 3000)
+        return false
+      }
+
+      return true
+    }
+    const yearMonthDayToUTCString = (year, month, day) => {
+      const yearCDM = ('000' + year).slice(-4)
+      const monthCDM = ('0' + month).slice(-2)
+      const dayCDM = ('0' + day).slice(-2)
+
+      const fecha = new Date(`${yearCDM}-${monthCDM}-${dayCDM}T00:00:00`)
+      const userTimezoneOffset = fecha.getTimezoneOffset() * 60000
+
+      return new Date(fecha.getTime() - userTimezoneOffset).toISOString().slice(0, 10)
+    }
+
+    document.getElementById('desfec').addEventListener('change', function(e) {
+      const formato = document.getElementById('cbofor').value
+      const currentYear = new Date(document.querySelector("#desfec").value).getFullYear()
+      const currentMonth = new Date(document.querySelector("#desfec").value).getMonth() +1
+
+      let desde = new Date(yearMonthDayToUTCString(currentYear, currentMonth, 1))
+      let hasta = desde
+
+      if (formato === '1') {
+        const lastDayMonth = new Date(currentYear, currentMonth, 0).getDate()
+
+        hasta = new Date(yearMonthDayToUTCString(currentYear, currentMonth, lastDayMonth))
+      } else {
+        let t = new Date()
+
+        t = new Date(document.querySelector("#desfec").value)
+
+        if (t.getDay() === 0) {
+          t.setDate(t.getDate() + 1)
+
+          desde = new Date(t)
+          hasta = new Date(t.setDate(t.getDate() + 4))
+        } else if (t.getDay() === 1) {
+          t = new Date(new Date(document.querySelector("#desfec").value))
+          t.setDate(t.getDate() + 4)
+
+          desde = new Date(new Date(document.querySelector("#desfec").value))
+          hasta = t
+        } else {
+          const primerDiaSemana = t.getDate() - t.getDay()
+
+          t.setDate(desde.getDate() + primerDiaSemana)
+          desde = new Date(t)
+          hasta = new Date(t.setDate(t.getDate() + 4))
+        }
+      }
+
+      document.querySelector("#desde").value = desde.toISOString().slice(0, 10)
+      document.querySelector("#hasta").value = hasta.toISOString().slice(0, 10)
+    })
+    document.getElementById('cbofor').addEventListener('change', function(e) {
+      const currentYear = new Date(document.querySelector("#desfec").value).getFullYear()
+      const currentMonth = new Date(document.querySelector("#desfec").value).getMonth() +1
+
+      let desde = new Date(yearMonthDayToUTCString(currentYear, currentMonth, 1))
+      let hasta = desde
+
+      if (e.target.value === '1') {
+        const lastDayMonth = new Date(currentYear, currentMonth, 0).getDate()
+
+        hasta = new Date(yearMonthDayToUTCString(currentYear, currentMonth, lastDayMonth))
+      } else {
+        let t = new Date()
+
+        t = new Date(document.querySelector("#desfec").value)
+
+        if (t.getDay() === 0) {
+          t.setDate(t.getDate() + 1)
+
+          desde = new Date(t)
+          hasta = new Date(t.setDate(t.getDate() + 4))
+        } else if (t.getDay() === 1) {
+          t = new Date(new Date(document.querySelector("#desfec").value))
+          t.setDate(t.getDate() + 4)
+
+          desde = new Date(new Date(document.querySelector("#desfec").value))
+          hasta = t
+        } else {
+          const primerDiaSemana = t.getDate() - t.getDay()
+
+          t.setDate(desde.getDate() + primerDiaSemana)
+          desde = new Date(t)
+          hasta = new Date(t.setDate(t.getDate() + 4))
+        }
+      }
+
+      document.querySelector("#desde").value = desde.toISOString().slice(0, 10)
+      document.querySelector("#hasta").value = hasta.toISOString().slice(0, 10)
+    })
+  </script>
+</body>
+
+</html>
