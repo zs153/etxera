@@ -5,7 +5,7 @@
 import debug from "debug";
 import http from "http";
 import app from "../app";
-import { puerto } from '../config/settings'
+import { puertoWEB } from '../config/settings'
 
 /**
  * Normalize a port into a number, string, or false.
@@ -26,7 +26,7 @@ const normalizePort = (val) => {
 /**
  * Get port from environment and store in Express.
  */
-const port = normalizePort(puerto || "4600");
+const port = normalizePort(puertoWEB || "4600");
 app.set("port", port);
 
 /**
