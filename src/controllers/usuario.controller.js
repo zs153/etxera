@@ -38,23 +38,6 @@ export const usuarios = async (req, res) => {
     res.status(500).json({ stat: null, data: 'Conexión no estableciada' })
   }
 }
-export const conEstados = async (req, res) => {
-  // context
-  const context = req.body.context
-
-  // proc
-  try {
-    const result = await DAL.findEstados(context)
-
-    if (result.stat) {
-      res.status(200).json({ stat: 1, data: result.data })
-    } else {
-      res.status(400).json({ stat: null, data: {} })
-    }
-  } catch (err) {
-    res.status(500).json({ stat: null, data: 'Conexión no estableciada' })
-  }
-}
 
 export const crear = async (req, res) => {
   // context

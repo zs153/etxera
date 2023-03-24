@@ -7,36 +7,7 @@ const baseQuery = `SELECT
   FROM usuarios uu
   INNER JOIN oficinas oo ON oo.idofic = uu.ofiusu
 `;
-const estadosSql = `WITH datos AS (
-  SELECT uu.idusua,
-    SUM(CASE WHEN ee.tipest = 2 THEN 1 ELSE 0 END) "VACAS",
-    SUM(CASE WHEN ee.tipest = 5 THEN EXTRACT(DAY FROM (hashor-deshor)*24*60) ELSE 0 END) "F",
-    SUM(CASE WHEN ee.tipest = 6 THEN EXTRACT(DAY FROM (hashor-deshor)*24*60) ELSE 0 END) "C",
-    SUM(CASE WHEN ee.tipest = 8 THEN EXTRACT(DAY FROM (hashor-deshor)*24*60) ELSE 0 END) "H",
-    SUM(CASE WHEN ee.tipest = 9 THEN EXTRACT(DAY FROM (hashor-deshor)*24*60) ELSE 0 END) "T"
-  FROM usuarios uu
-  LEFT JOIN estados ee ON ee.usuest = uu.idusua
-  WHERE uu.idusua = :idusua
-  GROUP BY uu.idusua
-)
-SELECT 
-  uu.idusua,
-  uu.nomusu,
-  uu.userid,
-  uu.ofiusu,
-  uu.telusu,
-  uu.stausu,
-  dd.vacas,
-  TO_CHAR(TRUNC(dd.f/60), 'FM00') || ':' || TO_CHAR(mod(dd.f, 60), 'FM00') "FORMA",
-  TO_CHAR(TRUNC(dd.c/60), 'FM00') || ':' || TO_CHAR(mod(dd.c, 60), 'FM00') "CONCI",
-  TO_CHAR(TRUNC(dd.h/60), 'FM00') || ':' || TO_CHAR(mod(dd.h, 60), 'FM00') "HORAS",
-  TO_CHAR(TRUNC(dd.t/60), 'FM00') || ':' || TO_CHAR(mod(dd.t, 60), 'FM00') "TELEF",
-  oo.desofi
-FROM datos dd
-INNER JOIN usuarios uu ON uu.idusua = dd.idusua
-INNER JOIN oficinas oo ON oo.idofic = uu.ofiusu
-`
-const insertSql = `BEGIN OPORRAK_PKG.INSERTUSUARIO(
+const insertSql = `BEGIN ETXERA_PKG.INSERTUSUARIO(
     :nomusu,
     :ofiusu,
     :rolusu,
@@ -52,7 +23,7 @@ const insertSql = `BEGIN OPORRAK_PKG.INSERTUSUARIO(
     :idusua
   ); END;
 `;
-const updateSql = `BEGIN OPORRAK_PKG.UPDATEUSUARIO(
+const updateSql = `BEGIN ETXERA_PKG.UPDATEUSUARIO(
     :idusua,
     :nomusu, 
     :ofiusu, 
@@ -65,27 +36,27 @@ const updateSql = `BEGIN OPORRAK_PKG.UPDATEUSUARIO(
     :tipmov
   ); END;
 `;
-const removeSql = `BEGIN OPORRAK_PKG.DELETEUSUARIO(
+const removeSql = `BEGIN ETXERA_PKG.DELETEUSUARIO(
   :idusua,
   :usumov,
   :tipmov
 ); END;
 `;
-const cambioSql = `BEGIN OPORRAK_PKG.CHANGEPASSWORD(
+const cambioSql = `BEGIN ETXERA_PKG.CHANGEPASSWORD(
   :idusua,
   :pwdusu,
   :usumov,
   :tipmov
 ); END;
 `;
-const olvidoSql = `BEGIN OPORRAK_PKG.FORGOTPASSWORD(
+const olvidoSql = `BEGIN ETXERA_PKG.FORGOTPASSWORD(
   :emausu,
   :pwdusu, 
   :tipmov,
   :saltus
 ); END;
 `;
-const perfilSql = `BEGIN OPORRAK_PKG.UPDATEPERFILUSUARIO(
+const perfilSql = `BEGIN ETXERA_PKG.UPDATEPERFILUSUARIO(
   :idusua,
   :nomusu,
   :emausu,
@@ -172,22 +143,7 @@ export const findAll = async (context) => {
     return ({ stat: null, data: null })
   }
 };
-export const findEstados = async (context) => {
-  // bind
-  let query = estadosSql
-  let bind = {
-    idusua: context.IDUSUA,
-  };
 
-  // proc
-  const ret = await simpleExecute(query, bind)
-
-  if (ret) {
-    return ({ stat: 1, data: ret.rows })
-  } else {
-    return ({ stat: null, data: null })
-  }
-};
 export const insert = async (bind) => {
   // bind
   bind.IDUSUA = {
