@@ -20,7 +20,7 @@ const authRoutes = async (req, res, next) => {
         'type': 'spki',
         'passphrase': secreto
       })
-
+      
       await V4.verify(token, key, {
         audience: 'urn:client:claim',
         issuer: 'http://localhost:4000',
@@ -32,6 +32,7 @@ const authRoutes = async (req, res, next) => {
         const usuario = await axios.post(`http://${serverAPI}:${puertoAPI}/api/usuario`, {
           context,
         })
+        console.log('usuario', usuario);
         const payload = {
           id: usuario.data.data.IDUSUA,
           userid: usuario.data.data.USERID,
