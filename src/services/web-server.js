@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import { port } from '../config/settings'
 // routes
+import apiCartaRouter from '../routes/carta.router'
 import apiOficinaRouter from '../routes/oficina.router'
 import apiUsuarioRouter from '../routes/usuario.router'
 import apiMatriculaRouter from '../routes/matricula.router'
@@ -27,9 +28,9 @@ function initialize() {
     app.use(express.urlencoded({ extended: true }))
     app.use(cookieParser())
     app.use(cors())
-    // app.use(express.static(path.join(__dirname, '/public')))
 
     // routes
+    app.use('/api', apiCartaRouter)
     app.use('/api', apiOficinaRouter)
     app.use('/api', apiUsuarioRouter)
     app.use('/api', apiMatriculaRouter)
