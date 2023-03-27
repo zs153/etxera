@@ -42,7 +42,6 @@ export const calendario = async (req, res) => {
     DESOFI: req.body.desofi,
   }
 
-  console.log(oficina)
   try {
     const festivos = await axios.post(`http://${serverAPI}:${puertoAPI}/api/festivos`, {
       festivo,

@@ -3,14 +3,17 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import path from 'path'
 
-// import rutas
+// main
+import mainRouter from "./routes/main.router";
+// admin
+import userRouter from "./routes/user.router";
+// admin
 import adminRouter from "./routes/admin.router";
 import calendarioRouter from "./routes/calendario.router";
 import cursoRouter from "./routes/curso.router";
 import estadoRouter from "./routes/estado.router";
 import festivoRouter from "./routes/festivo.router";
 import historicoRouter from "./routes/historico.router";
-import mainRouter from "./routes/main.router";
 import matriculaRouter from "./routes/matricula.router";
 import oficinaRouter from "./routes/oficina.router";
 import traspasoRouter from "./routes/traspaso.router";
@@ -30,8 +33,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "/public")));
 
-// admin routes
+// main route
 app.use("/", mainRouter);
+
+// user routes
+app.use("/user", userRouter);
+
+// admin routes
 app.use("/admin", adminRouter);
 app.use("/admin", calendarioRouter);
 app.use("/admin", cursoRouter);
