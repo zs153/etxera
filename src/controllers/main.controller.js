@@ -11,7 +11,7 @@ export const cleanPage = async (req, res) => {
     serverWEB,
     puertoWEB,
   }
-
+  
   res.render('clean', { user, datos })
 }
 export const logoutPage = async (req, res) => {

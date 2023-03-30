@@ -9,11 +9,11 @@ const authRoutes = async (req, res, next) => {
 
   try {
     const localKey = createSecretKey(new Buffer.from(secreto, 'hex'));
-
+    
     if (typeof tokenHeader === 'undefined') {
       tokenHeader = ''
       const token = req.query.valid === 'undefined' ? '' : req.query.valid
-
+      
       const key = createPublicKey({
         'key': publicKey,
         'format': 'pem',
@@ -32,7 +32,7 @@ const authRoutes = async (req, res, next) => {
         const usuario = await axios.post(`http://${serverAPI}:${puertoAPI}/api/usuario`, {
           context,
         })
-        console.log('usuario', usuario);
+        
         const payload = {
           id: usuario.data.data.IDUSUA,
           userid: usuario.data.data.USERID,
@@ -74,7 +74,7 @@ const authRoutes = async (req, res, next) => {
         rol: ret.rol,
         oficina: ret.oficina,
       }
-
+      
       next()
     }).catch(err => {
       throw new Error(err)

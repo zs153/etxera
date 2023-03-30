@@ -25,8 +25,8 @@ export const mainPage = async (req, res) => {
       limit: limit + 1,
       direction: dir,
       cursor: {
-        next: '',
-        prev: '',
+        next: 0,
+        prev: 0,
       },
       part,
     }
@@ -39,14 +39,14 @@ export const mainPage = async (req, res) => {
 
     let cartas = result.data.data
     let hasNextCartas = cartas.length === limit +1
-    let nextCursor = ''
-    let prevCursor = ''
+    let nextCursor = 0
+    let prevCursor = 0
     
     if (hasNextCartas) {
       const nextCursorCarta = dir === 'next' ? cartas[limit - 1] : cartas[0]
       const prevCursorCarta = dir === 'next' ? cartas[0] : cartas[limit - 1]
-      nextCursor = nextCursorCarta.DESCAR
-      prevCursor = prevCursorCarta.DESCAR
+      nextCursor = nextCursorCarta.IDCART
+      prevCursor = prevCursorCarta.IDCART
 
       cartas.pop()
     } else {
@@ -55,8 +55,8 @@ export const mainPage = async (req, res) => {
           limit: limit + 1,
           direction: 'next',
           cursor: {
-            next: '',
-            prev: ''
+            next: 0,
+            prev: 0
           },
           part,
         }
@@ -71,8 +71,8 @@ export const mainPage = async (req, res) => {
         if (hasNextCartas) {
           const nextCursorCarta = cartas[limit - 1]
           const prevCursorCarta = cartas[0]
-          nextCursor = nextCursorCarta.DESCAR
-          prevCursor = prevCursorCarta.DESCAR
+          nextCursor = nextCursorCarta.IDCART
+          prevCursor = prevCursorCarta.IDCART
           
           cartas.pop()
         }
@@ -81,7 +81,7 @@ export const mainPage = async (req, res) => {
       } else {
         if (cursor) {
           const prevCursorCarta = cartas[0]
-          prevCursor = prevCursorCarta.DESCAR
+          prevCursor = prevCursorCarta.IDCART
           hasPrevCartas = true
         } else {
           hasPrevCartas = false
@@ -98,13 +98,13 @@ export const mainPage = async (req, res) => {
     const datos = {
       user,
       limit,
-      cartas: dir === 'next' ? cartas : cartas.sort((a,b) => a.DESCAR > b.DESCAR ? 1:-1),
+      cartas,
       hasPrevCartas,
       hasNextCartas,
       cursor: convertNodeToCursor(JSON.stringify(cursor)),
     }
 
-    console.log(datos);
+
     res.render('user/', { user, datos })
   } catch (error) {
     if (error.response?.status === 400) {
