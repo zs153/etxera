@@ -87,7 +87,7 @@ export const find = async (context) => {
 
   // proc
   const ret = await simpleExecute(query, bind)
-
+  
   if (ret) {
     return ({stat: 1, data: ret.rows})
   } else {

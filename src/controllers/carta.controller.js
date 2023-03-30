@@ -1,4 +1,4 @@
-import * as DAL from '../models/usuario.model'
+import * as DAL from '../models/carta.model'
 
 export const carta = async (req, res) => {
   // context

@@ -56,29 +56,29 @@ export const findAll = async (context) => {
   };
 
   if (context.direction === 'next') {
-    bind.DESCAR = context.cursor.next === '' ? null : context.cursor.next;
+    bind.IDCART = context.cursor.next;
     query = `WITH datos AS (
-      SELECT descar FROM cartas
+      SELECT idcart, descar FROM cartas
       WHERE
         descar LIKE '%' || :part || '%' OR
         :part IS NULL
     )
     SELECT * FROM datos
-    WHERE descar > :descar OR :descar IS NULL
-    ORDER BY descar ASC
+    WHERE idcart > :idcart
+    ORDER BY idcart ASC
     FETCH NEXT :limit ROWS ONLY
     `
   } else {
-    bind.NOMUSU = context.cursor.prev === '' ? null : context.cursor.prev;
+    bind.IDCART = context.cursor.prev;
     query = `WITH datos AS (
-      SELECT descar FROM cartas
+      SELECT idcart, descar FROM cartas
       WHERE
         descar LIKE '%' || :part || '%' OR
         :part IS NULL
     )
     SELECT * FROM datos
-    WHERE descar < CONVERT(:descar, 'US7ASCII') OR :descar IS NULL
-    ORDER BY descar DESC
+    WHERE idcart < :idcart
+    ORDER BY idcart DESC
     FETCH NEXT :limit ROWS ONLY
     `
   }
