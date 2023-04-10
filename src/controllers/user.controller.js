@@ -1,5 +1,16 @@
 import axios from 'axios'
+import nodemailer from 'nodemailer';
+import ejs from 'ejs'
 import { puertoAPI, serverAPI } from '../config/settings'
+
+const transport = nodemailer.createTransport({
+  host: 'smtp.ethereal.email',
+  port: '587',
+  auth: {
+    user: 'jess.casper@ethereal.email',
+    pass: '7d1KED3TGxuB9bhn2P'
+  }
+});
 
 export const mainPage = async (req, res) => {
   const user = req.user
@@ -118,6 +129,35 @@ export const mainPage = async (req, res) => {
     }
   }
 }
+
+export const sendEmail = async (req, res) => {
+  const receiver = req.body.email
+  const subject = "Renta 2022 Asesoria El Pino"
+  const url = `https://www.bizkaia.eus/es/renta2022`
+
+  console.log('receiver...', receiver);
+  ejs.renderFile(__dirname + '/../public/templates/welcome.ejs', { url }, (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      var mailOptions = {
+        from: 'noreply@bizkaia.eus',
+        to: receiver,
+        subject: subject,
+        html: data
+      };
+
+      transport.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          return console.log(error);
+        }
+        console.log('Message sent: %s', info.messageId);
+      });
+    }
+  });
+
+  //mainPage()
+};
 
 // helpers
 const hash = async (password) => {

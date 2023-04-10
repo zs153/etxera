@@ -66,45 +66,44 @@
     <%- include('../partials/footer') %>
   </div>
 
-  <div class="modal modal-blur fade" id="modal-enviar" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+  <div class="modal modal-blur fade" id="modal-borrar" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
       <div class="modal-content">
-        <form action="/user/email" method="POST">
-          <div class="modal-header">
-            <h5 class="modal-title">Cartas</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div id="msgenv"></div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-status bg-danger"></div>
+        <div class="modal-body text-center py-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24"
+            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M12 9v2m0 4v.01"></path>
+            <path d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75"></path>
+          </svg>
+          <h3>¿Desea borrar esta carta?</h3>
+          <div id="msgbor"></div>
+          <div class="text-muted">Lo que vas a hacer no puede ser recuperado.</div>
+        </div>
+        <div class="modal-footer">
+          <div class="w-100">
             <div class="row">
-              <div class="col-12">
-                <div class="mb-1">
-                  <label class="form-label text-start">Correo electrónico</label>
-                  <input type="text" name="email" id="email" class="form-control" />
-                </div>
+              <div class="col">
+                <a href="#" class="btn btn-white w-100" data-bs-dismiss="modal">Cancelar</a>
+              </div>
+              <div class="col">
+                <form action="/admin/cartas/delete" method="POST">
+                  <input type="hidden" id="idcart" name="idcart" value="">
+                  <button type="submit" class="btn btn-danger w-100" id="btnUpdate">Borrar carta</button>
+                </form>
               </div>
             </div>
           </div>
-          <div class="modal-footer">
-            <div class="w-100">
-              <div class="row">
-                <div class="col">
-                  <a href="#" class="btn btn-white w-100" data-bs-dismiss="modal">Cancelar</a>
-                </div>
-                <div class="col">
-                    <input type="hidden" id="idcart" name="idcart" value="">
-                    <button type="submit" class="btn btn-primary w-100" id="btnUpdate">Enviar carta</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
   </div>
 
   <script src="/js/ayuda.min.js"></script>
-  <script src="/js/carta.js"></script>
+  <script src="/js/cartaAdmin.js"></script>
   <script>
     const orgList = <%- JSON.stringify(datos.cartas) %>
     const cursor = <%- JSON.stringify(datos.cursor) %>
