@@ -1,5 +1,5 @@
 import express from "express";
-import { borrar, carta, cartas, crear, modificiar } from "../controllers/carta.controller";
+import { carta, cartas, crear, modificiar, borrar } from "../controllers/carta.controller";
 
 const apiCartaRouter = express.Router();
 

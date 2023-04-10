@@ -6,14 +6,8 @@ import cors from 'cors'
 import { port } from '../config/settings'
 // routes
 import apiCartaRouter from '../routes/carta.router'
-import apiOficinaRouter from '../routes/oficina.router'
+import apiEnlaceRouter from '../routes/enlace.router'
 import apiUsuarioRouter from '../routes/usuario.router'
-import apiMatriculaRouter from '../routes/matricula.router'
-import apiCursoRouter from '../routes/curso.router'
-import apiEstadoRouter from '../routes/estado.router'
-import apiFestivoRouter from '../routes/festivo.router'
-import apiHistoricoRouter from '../routes/historico.router'
-import apiFormacionRouter from '../routes/formacion.router'
 
 let httpServer
 
@@ -31,14 +25,8 @@ function initialize() {
 
     // routes
     app.use('/api', apiCartaRouter)
-    app.use('/api', apiOficinaRouter)
+    app.use('/api', apiEnlaceRouter)
     app.use('/api', apiUsuarioRouter)
-    app.use('/api', apiMatriculaRouter)
-    app.use('/api', apiCursoRouter)
-    app.use('/api', apiEstadoRouter)
-    app.use('/api', apiFestivoRouter)
-    app.use('/api', apiHistoricoRouter)
-    app.use('/api', apiFormacionRouter)
 
     // server
     httpServer
