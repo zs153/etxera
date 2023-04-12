@@ -91,7 +91,7 @@ const buildTable = (state) => {
     cell = document.createElement('td')
     cell.innerHTML = `<div class="d-flex align-items-center">
       <div class="flex-fill">
-        <div class="font-weight-medium">${element.DESCAR}</div>
+        <div class="font-weight-medium">${element.NOMCAR}</div>
       </div>
     </div>`
     row.appendChild(cell)

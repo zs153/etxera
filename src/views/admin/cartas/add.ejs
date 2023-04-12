@@ -29,8 +29,8 @@
                       <div class="col-12">
                         <div class="mb-1">
                           <div class="input-control">
-                            <label class="form-label required">Descripción</label>
-                            <input type="text" name="descar" id="descar" class="form-control"
+                            <label class="form-label required">Nombre</label>
+                            <input type="text" name="nomcar" id="nomcar" class="form-control"
                               style="text-transform: uppercase;" value="" autofocus />
                             <div class="invalid-feedback"></div>
                           </div>
@@ -73,15 +73,15 @@
     });
   </script>
   <script>
-    const descar = document.getElementById('descar')
+    const nomcar = document.getElementById('nomcar')
 
     const validate = () => {
-      const descarValue = descar.value.trim()
+      const nomcarValue = nomcar.value.trim()
 
-      if (descarValue === '') {
-        setError(descar, 'Descripción requerida')
+      if (nomcarValue === '') {
+        setError(nomcar, 'Descripción requerida')
         setTimeout(function () {
-          setSuccess(descar)
+          setSuccess(nomcar)
         }, 3000)
         return false
       }

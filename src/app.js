@@ -5,7 +5,7 @@ import path from 'path'
 
 // main
 import mainRouter from "./routes/main.router";
-// admin
+// user
 import userRouter from "./routes/user.router";
 // admin
 import adminRouter from "./routes/admin.router";

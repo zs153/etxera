@@ -1,17 +1,18 @@
 import axios from 'axios'
 import nodemailer from 'nodemailer';
+import smtpTransport from 'nodemailer-smtp-transport';
 import ejs from 'ejs'
-import { puertoAPI, serverAPI } from '../config/settings'
+import { puertoAPI, serverAPI, serverWEB, puertoWEB } from '../config/settings'
 
-const transport = nodemailer.createTransport({
-  host: 'smtp.ethereal.email',
-  port: '587',
-  auth: {
-    user: 'jess.casper@ethereal.email',
-    pass: '7d1KED3TGxuB9bhn2P'
+const transport = nodemailer.createTransport(smtpTransport({
+  host: 'posta.bizkaia.eus',
+  port: 25,
+  tls: {
+    rejectUnauthorized: false
   }
-});
+}));
 
+// page
 export const mainPage = async (req, res) => {
   const user = req.user
 
@@ -129,34 +130,54 @@ export const mainPage = async (req, res) => {
     }
   }
 }
+export const cleanPage = async (req, res) => {
+  const user = req.user
+  const datos = {
+    serverWEB,
+    puertoWEB,
+  }
 
+  res.render('user/clean', { user, datos })
+}
+
+// proc
 export const sendEmail = async (req, res) => {
+  const context = {
+    IDCART: req.body.idcart,
+  }
   const receiver = req.body.email
-  const subject = "Renta 2022 Asesoria El Pino"
-  const url = `https://www.bizkaia.eus/es/renta2022`
+  const subject = "Renta 2022 Actividades"
+  const url = `https://www.bizkaia.eus/es/inicio`
 
-  console.log('receiver...', receiver);
-  ejs.renderFile(__dirname + '/../public/templates/welcome.ejs', { url }, (err, data) => {
-    if (err) {
-      console.log(err);
-    } else {
-      var mailOptions = {
-        from: 'noreply@bizkaia.eus',
-        to: receiver,
-        subject: subject,
-        html: data
-      };
+  try {
+    const carta = await axios.post(`http://${serverAPI}:${puertoAPI}/api/carta`, {
+      context
+    })
 
-      transport.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          return console.log(error);
-        }
-        console.log('Message sent: %s', info.messageId);
-      });
-    }
-  });
+    ejs.renderFile(__dirname + `/../public/templates/${carta.data.data.FICCAR}.ejs`, { url }, (err, data) => {
+      if (err) {
+        console.log(err);
+      } else {
+        var mailOptions = {
+          from: 'ziur@bizkaia.eus',
+          to: receiver,
+          subject: subject,
+          html: data
+        };
 
-  //mainPage()
+        transport.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            return console.log(error);
+          }
+          console.log('Message sent: %s', info.messageId);
+        });
+      }
+    });
+  } catch (error) {
+    
+  }
+
+  res.redirect('/user')
 };
 
 // helpers
