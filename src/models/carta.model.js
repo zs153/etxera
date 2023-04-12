@@ -1,12 +1,10 @@
 import { BIND_OUT, NUMBER } from "oracledb";
 import { simpleExecute } from "../services/database.js";
 
-const baseQuery = `SELECT 
-  *
-FROM cartas 
+const baseQuery = `SELECT * FROM cartas 
 `;
 const insertSql = `BEGIN ETXERA_PKG.INSERTCARTA(
-    :descar,
+    :nomcar,
     :concar,
     :usumov,
     :tipmov,
@@ -15,7 +13,7 @@ const insertSql = `BEGIN ETXERA_PKG.INSERTCARTA(
 `;
 const updateSql = `BEGIN ETXERA_PKG.UPDATECARTA(
     :idcart,
-    :descar,
+    :nomcar,
     :concar,
     :usumov,
     :tipmov
@@ -58,9 +56,9 @@ export const findAll = async (context) => {
   if (context.direction === 'next') {
     bind.IDCART = context.cursor.next;
     query = `WITH datos AS (
-      SELECT idcart, descar FROM cartas
+      SELECT idcart, nomcar FROM cartas
       WHERE
-        descar LIKE '%' || :part || '%' OR
+        nomcar LIKE '%' || :part || '%' OR
         :part IS NULL
     )
     SELECT * FROM datos
@@ -71,9 +69,9 @@ export const findAll = async (context) => {
   } else {
     bind.IDCART = context.cursor.prev;
     query = `WITH datos AS (
-      SELECT idcart, descar FROM cartas
+      SELECT idcart, nomcar FROM cartas
       WHERE
-        descar LIKE '%' || :part || '%' OR
+        nomcar LIKE '%' || :part || '%' OR
         :part IS NULL
     )
     SELECT * FROM datos
