@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Cartas</title>
+  <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+  <!-- styles -->
+  <link rel="stylesheet" href="/css/styles.css">
+
+<body class="antialiased">
+  <div class="wrapper">
+    <%- include('../../partials/header') %>
+      <%- include('../../partials/navbar', {opcion: 'ADMINISTRACION' }) %>
+        <div class="page-wrapper">
+          <div class="page-body">
+            <div class="container-xl">
+              <div class="row">
+                <div class="col-12">
+                  <div class="card mt-3">
+                    <form action="/admin/cartas/update" method="POST" onsubmit="return validate();">
+                      <input type="hidden" name="idcart" value="<%= datos.carta.IDCART %>">
+                      <div class="card-header">
+                        <h3 class="card-title">Carta</h3>
+                      </div>
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-8">
+                            <div class="mb-1">
+                              <div class="input-control">
+                                <label class="form-label required">Nombre</label>
+                                <input type="text" name="nomcar" id="nomcar" class="form-control"
+                                  style="text-transform: uppercase;" value="<%= datos.carta.NOMCAR %>" autofocus />
+                                <div class="invalid-feedback"></div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <div class="mb-1">
+                              <div class="input-control">
+                                <label class="form-label required">Fichero</label>
+                                <input type="text" name="ficcar" id="ficcar" class="form-control" style="text-transform: lowercase;"
+                                  value="<%= datos.carta.FICCAR %>" />
+                                <div class="invalid-feedback"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="mb-1">
+                              <div class="input-control">
+                                <label class="form-label required">Contenido carta</label>
+                                <textarea name="concar" id="editor1"><%= datos.carta.CONCAR %></textarea>
+                                <div class="invalid-feedback"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-footer text-end">
+                        <div class="d-flex">
+                          <a href="/admin/cartas" class="btn btn-white">Cancelar</a>
+                          <button type="submit" class="btn btn-success ms-auto" id="btnUpdate">Actualizar carta</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <%- include('../../partials/footer') %>
+  </div>
+
+  <script src="/js/ayuda.min.js"></script>
+  <script src="/js/ckeditor/ckeditor.js"></script>
+  <script>
+    CKEDITOR.replace('editor1', {
+      height: 400
+    });
+  </script>
+  <script>
+    const nomcar = document.getElementById('nomcar')
+
+    const validate = () => {
+      const nomcarValue = nomcar.value.trim()
+
+      if (nomcarValue === '') {
+        setError(nomcar, 'Descripción requerida')
+        setTimeout(function () {
+          setSuccess(nomcar)
+        }, 3000)
+        return false
+      }
+
+      return true
+    }
+
+    const setSuccess = (element) => {
+      const inputControl = element.parentElement;
+      const errorDisplay = inputControl.querySelector('.invalid-feedback');
+      errorDisplay.innerText = '';
+      inputControl.classList.add('is-valid');
+      element.classList.remove('is-invalid');
+    }
+    const setError = (element, message) => {
+      const inputControl = element.parentElement;
+      const errorDisplay = inputControl.querySelector('.invalid-feedback');
+      errorDisplay.innerText = message;
+      element.classList.add('is-invalid');
+      inputControl.classList.remove('is-valid');
+    }
+  </script>
+</body>
+
+</html>
