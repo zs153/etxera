@@ -3,23 +3,25 @@ import { simpleExecute } from "../services/database.js";
 
 const baseQuery = `SELECT * FROM cartas 
 `;
-const insertSql = `BEGIN ETXERA_PKG.INSERTCARTA(
+const insertSql = `BEGIN INICIO_PKG.INSERTCARTA(
     :nomcar,
+    :ficcar,
     :concar,
     :usumov,
     :tipmov,
     :idcart
   ); END;
 `;
-const updateSql = `BEGIN ETXERA_PKG.UPDATECARTA(
+const updateSql = `BEGIN INICIO_PKG.UPDATECARTA(
     :idcart,
     :nomcar,
+    :ficcar,
     :concar,
     :usumov,
     :tipmov
   ); END;
 `;
-const removeSql = `BEGIN ETXERA_PKG.DELETECARTA(
+const removeSql = `BEGIN INICIO_PKG.DELETECARTA(
   :idcart,
   :usumov,
   :tipmov
