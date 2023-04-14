@@ -2,12 +2,12 @@ import { BIND_OUT, NUMBER } from "oracledb";
 import { simpleExecute } from "../services/database.js";
 
 const baseQuery = `SELECT 
-    uu.*,
-    oo.desofi
-  FROM usuarios uu
-  INNER JOIN oficinas oo ON oo.idofic = uu.ofiusu
+  uu.*,
+  oo.desofi
+FROM usuarios uu
+INNER JOIN oficinas oo ON oo.idofic = uu.ofiusu
 `;
-const insertSql = `BEGIN ETXERA_PKG.INSERTUSUARIO(
+const insertSql = `BEGIN INICIO_PKG.INSERTUSUARIO(
     :nomusu,
     :ofiusu,
     :rolusu,
@@ -23,40 +23,33 @@ const insertSql = `BEGIN ETXERA_PKG.INSERTUSUARIO(
     :idusua
   ); END;
 `;
-const updateSql = `BEGIN ETXERA_PKG.UPDATEUSUARIO(
-    :idusua,
-    :nomusu, 
-    :ofiusu, 
-    :rolusu, 
-    :emausu, 
-    :perusu, 
-    :telusu, 
-    :stausu, 
-    :usumov, 
-    :tipmov
-  ); END;
+const updateSql = `BEGIN INICIO_PKG.UPDATEUSUARIO(
+  :idusua,
+  :nomusu, 
+  :ofiusu, 
+  :rolusu,
+  :emausu, 
+  :perusu, 
+  :telusu, 
+  :stausu, 
+  :usumov, 
+  :tipmov
+); END;
 `;
-const removeSql = `BEGIN ETXERA_PKG.DELETEUSUARIO(
+const removeSql = `BEGIN INICIO_PKG.DELETEUSUARIO(
   :idusua,
   :usumov,
   :tipmov
 ); END;
 `;
-const cambioSql = `BEGIN ETXERA_PKG.CHANGEPASSWORD(
+const cambioSql = `BEGIN INICIO_PKG.CHANGEPASSWORD(
   :idusua,
   :pwdusu,
   :usumov,
   :tipmov
 ); END;
 `;
-const olvidoSql = `BEGIN ETXERA_PKG.FORGOTPASSWORD(
-  :emausu,
-  :pwdusu, 
-  :tipmov,
-  :saltus
-); END;
-`;
-const perfilSql = `BEGIN ETXERA_PKG.UPDATEPERFILUSUARIO(
+const perfilSql = `BEGIN INICIO_PKG.UPDATEPERFILUSUARIO(
   :idusua,
   :nomusu,
   :emausu,
@@ -83,15 +76,15 @@ export const find = async (context) => {
   } else if (context.OFIUSU) {
     bind.OFIUSU = context.OFIUSU;
     query += `WHERE uu.ofiusu = :ofiusu`;
-  } 
+  }
 
   // proc
   const ret = await simpleExecute(query, bind)
-  
+
   if (ret) {
-    return ({stat: 1, data: ret.rows})
+    return ({ stat: 1, data: ret.rows })
   } else {
-    return ({stat: null, data: null})
+    return ({ stat: null, data: null })
   }
 };
 export const findAll = async (context) => {
@@ -143,7 +136,22 @@ export const findAll = async (context) => {
     return ({ stat: null, data: null })
   }
 };
+export const findEstados = async (context) => {
+  // bind
+  let query = estadosSql
+  let bind = {
+    idusua: context.IDUSUA,
+  };
 
+  // proc
+  const ret = await simpleExecute(query, bind)
+
+  if (ret) {
+    return ({ stat: 1, data: ret.rows })
+  } else {
+    return ({ stat: null, data: null })
+  }
+};
 export const insert = async (bind) => {
   // bind
   bind.IDUSUA = {
@@ -151,6 +159,7 @@ export const insert = async (bind) => {
     type: NUMBER,
   };
 
+  console.log('insert...', bind);
   // proc
   const ret = await simpleExecute(insertSql, bind)
 
@@ -187,17 +196,6 @@ export const change = async (bind) => {
   // bind
   // proc
   const ret = await simpleExecute(cambioSql, bind)
-
-  if (ret) {
-    return ({ stat: 1, data: bind })
-  } else {
-    return ({ stat: null, data: err })
-  }
-};
-export const forgot = async (bind) => {
-  // bind
-  // proc
-  const ret = await simpleExecute(olvidoSql, bind)
 
   if (ret) {
     return ({ stat: 1, data: bind })

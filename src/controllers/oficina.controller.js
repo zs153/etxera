@@ -1,33 +1,29 @@
-import * as DAL from '../models/carta.model'
+import * as DAL from '../models/oficina.model'
 
-export const enlace = async (req, res) => {
+export const oficina = async (req, res) => {
   // context
-  const context = req.body.context
+  const context = req.body.oficina
 
   // proc
   try {
     const result = await DAL.find(context)
 
     if (result.stat) {
-      if (result.data.length === 1) {
-        res.status(200).json({stat: 1, data: result.data[0]})
-      } else {
-        res.status(200).json({ stat: 1, data: result.data })
-      }
+      res.status(200).json({ stat: 1, data: result.data[0] })
     } else {
-      res.status(400).json({stat: null, data: 'Enlace no encontrado'})
+      res.status(400).json({ stat: null, data: 'Oficina no encontrada' })
     }
   } catch (err) {
     res.status(500).json({ stat: null, data: 'Conexión no estableciada' })
   }
 }
-export const enlaces = async (req, res) => {
+export const oficinas = async (req, res) => {
   // context
-  const context = req.body.context
+  const context = req.body.oficina
 
   // proc
   try {
-    const result = await DAL.findAll(context)
+    const result = await DAL.find(context)
 
     if (result.stat) {
       res.status(200).json({ stat: 1, data: result.data })
@@ -41,15 +37,15 @@ export const enlaces = async (req, res) => {
 
 export const crear = async (req, res) => {
   // context
-  const enlace = {
-    DESENL: req.body.enlace.DESENL,
-    URLENL: req.body.enlace.URLENL,
+  const oficina = {
+    DESOFI: req.body.oficina.DESOFI,
+    CODOFI: req.body.oficina.CODOFI,
   }
   const movimiento = {
     USUMOV: req.body.movimiento.USUMOV,
     TIPMOV: req.body.movimiento.TIPMOV,
   }
-  const context = Object.assign(enlace, movimiento)
+  const context = Object.assign(oficina, movimiento)
 
   // proc
   try {
@@ -58,25 +54,25 @@ export const crear = async (req, res) => {
     if (result.stat) {
       res.status(200).json({ stat: 1, data: result.data })
     } else {
-      res.status(400).json({ stat: null, data: 'No se han podido insertar los datos' })
+      res.status(400).json({ stat: null, data: 'Oficina no insertada' })
     }
 
   } catch (err) {
     res.status(500).json({ stat: null, data: 'Conexión no estableciada' })
   }
 }
-export const modificiar = async (req, res) => {
+export const modificar = async (req, res) => {
   // context
-  const enlace = {
-    IDENLA: req.body.enlace.IDENLA,
-    DESENL: req.body.enlace.DESENL,
-    URLENL: req.body.enlace.URLENL,
+  const oficina = {
+    IDOFIC: req.body.oficina.IDOFIC,
+    DESOFI: req.body.oficina.DESOFI,
+    CODOFI: req.body.oficina.CODOFI,
   }
   const movimiento = {
     USUMOV: req.body.movimiento.USUMOV,
     TIPMOV: req.body.movimiento.TIPMOV,
   }
-  const context = Object.assign(enlace, movimiento)
+  const context = Object.assign(oficina, movimiento)
 
   // proc
   try {
@@ -85,22 +81,23 @@ export const modificiar = async (req, res) => {
     if (result.stat) {
       res.status(200).json({ stat: 1, data: result.data })
     } else {
-      res.status(400).json({ stat: null, data: 'No se han podido actualizadar los datos' })
+      res.status(400).json({ stat: null, data: 'Oficina no actualizada' })
     }
+
   } catch (err) {
     res.status(500).json({ stat: null, data: 'Conexión no estableciada' })
   }
 }
 export const borrar = async (req, res) => {
   // context
-  const enlace = {
-    IDENLA: req.body.enlace.IDENLA,
+  const oficina = {
+    IDOFIC: req.body.oficina.IDOFIC,
   }
   const movimiento = {
     USUMOV: req.body.movimiento.USUMOV,
     TIPMOV: req.body.movimiento.TIPMOV,
   }
-  const context = Object.assign(enlace, movimiento)
+  const context = Object.assign(oficina, movimiento)
 
   // proc
   try {
@@ -109,8 +106,9 @@ export const borrar = async (req, res) => {
     if (result.stat) {
       res.status(200).json({ stat: 1, data: result.data })
     } else {
-      res.status(400).json({ stat: null, data: 'No se han podido eliminadar los datos' })
+      res.status(400).json({ stat: null, data: 'Oficina no eliminada' })
     }
+
   } catch (err) {
     res.status(500).json({ stat: null, data: 'Conexión no estableciada' })
   }

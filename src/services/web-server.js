@@ -6,7 +6,7 @@ import cors from 'cors'
 import { port } from '../config/settings'
 // routes
 import apiCartaRouter from '../routes/carta.router'
-import apiEnlaceRouter from '../routes/enlace.router'
+import apiOficinaRouter from '../routes/oficina.router'
 import apiUsuarioRouter from '../routes/usuario.router'
 
 let httpServer
@@ -25,7 +25,7 @@ function initialize() {
 
     // routes
     app.use('/api', apiCartaRouter)
-    app.use('/api', apiEnlaceRouter)
+    app.use('/api', apiOficinaRouter)
     app.use('/api', apiUsuarioRouter)
 
     // server

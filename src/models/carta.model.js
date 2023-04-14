@@ -58,7 +58,7 @@ export const findAll = async (context) => {
   if (context.direction === 'next') {
     bind.IDCART = context.cursor.next;
     query = `WITH datos AS (
-      SELECT idcart, nomcar FROM cartas
+      SELECT idcart, nomcar, ficcar FROM cartas
       WHERE
         nomcar LIKE '%' || :part || '%' OR
         :part IS NULL
@@ -71,7 +71,7 @@ export const findAll = async (context) => {
   } else {
     bind.IDCART = context.cursor.prev;
     query = `WITH datos AS (
-      SELECT idcart, nomcar FROM cartas
+      SELECT idcart, nomcar, ficcar FROM cartas
       WHERE
         nomcar LIKE '%' || :part || '%' OR
         :part IS NULL

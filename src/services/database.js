@@ -15,6 +15,7 @@ const simpleExecute = (sql, binds = [], opts = {}) => {
   return new Promise(async (resolve, reject) => {
     let conn
 
+    oracledb.fetchAsString = [oracledb.CLOB]
     opts.outFormat = oracledb.OBJECT
     opts.autoCommit = true
 

@@ -10,12 +10,12 @@ export const usuario = async (req, res) => {
 
     if (result.stat) {
       if (result.data.length === 1) {
-        res.status(200).json({stat: 1, data: result.data[0]})
+        res.status(200).json({ stat: 1, data: result.data[0] })
       } else {
         res.status(200).json({ stat: 1, data: result.data })
       }
     } else {
-      res.status(400).json({stat: null, data: 'Usuario no encontrado'})
+      res.status(400).json({ stat: null, data: 'Usuario no encontrado' })
     }
   } catch (err) {
     res.status(500).json({ stat: null, data: 'Conexión no estableciada' })
@@ -28,6 +28,23 @@ export const usuarios = async (req, res) => {
   // proc
   try {
     const result = await DAL.findAll(context)
+
+    if (result.stat) {
+      res.status(200).json({ stat: 1, data: result.data })
+    } else {
+      res.status(400).json({ stat: null, data: {} })
+    }
+  } catch (err) {
+    res.status(500).json({ stat: null, data: 'Conexión no estableciada' })
+  }
+}
+export const conEstados = async (req, res) => {
+  // context
+  const context = req.body.context
+
+  // proc
+  try {
+    const result = await DAL.findEstados(context)
 
     if (result.stat) {
       res.status(200).json({ stat: 1, data: result.data })
@@ -151,33 +168,6 @@ export const cambio = async (req, res) => {
       res.status(200).json({ stat: 1, data: result.data })
     } else {
       res.status(400).json({ stat: null, data: 'Contraseña no cambiada' })
-    }
-
-  } catch (err) {
-    res.status(500).json({ stat: null, data: 'Conexión no estableciada' })
-  }
-}
-export const olvido = async (req, res) => {
-  // context
-  const usuario = {
-    emausu: req.body.usuario.EMAUSU,
-    pwdusu: req.body.usuario.PWDUSU,
-    saltus: req.body.usuario.SALTUS,
-  }
-  const movimiento = {
-    usumov: req.body.movimiento.USUMOV,
-    tipmov: req.body.movimiento.TIPMOV,
-  }
-  const context = Object.assign(usuario, movimiento)
-
-  // proc
-  try {
-    const result = await DAL.forgot(context)
-
-    if (result.stat) {
-      res.status(200).json({ stat: 1, data: result.data })
-    } else {
-      res.status(400).json({ stat: null, data: 'Contraseña no reinicializada' })
     }
 
   } catch (err) {
