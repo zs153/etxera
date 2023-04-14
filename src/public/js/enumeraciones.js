@@ -8,6 +8,9 @@ export const tiposMovimiento = {
   crearCarta: 9,
   modificarCarta: 10,
   borrarCarta: 11,
+  crearPerfil: 12,
+  modificarPerfil: 13,
+  borrarPerfil: 14,  
 }
 export const tiposRol = {
   usuario: 1,

@@ -1,4 +1,6 @@
-import { puertoAUTH, serverAUTH, puertoWEB, serverWEB } from "../config/settings";
+import axios from 'axios'
+import { puertoAPI, serverAPI, serverWEB, puertoWEB, serverAUTH, puertoAUTH } from '../config/settings'
+import { tiposMovimiento } from '../public/js/enumeraciones';
 
 export const mainPage = async (req, res) => {
   const strUrl = encodeURIComponent(`${serverWEB}:${puertoWEB}`);
@@ -44,9 +46,10 @@ export const perfilPage = async (req, res) => {
 
     res.render('user/perfil', { user, datos })
   } catch (error) {
+    console.log(error);
     const msg = 'No se ha podido acceder a los datos de la aplicación.'
 
-    res.render('admin/error400', {
+    res.render('user/error400', {
       alerts: [{ msg }],
     })
   }
