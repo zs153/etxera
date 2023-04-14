@@ -1,4 +1,5 @@
 import axios from 'axios'
+import fs from "fs";
 import { puertoAPI, serverAPI } from '../config/settings'
 import { tiposMovimiento } from '../public/js/enumeraciones'
 
@@ -173,22 +174,28 @@ export const insert = async (req, res) => {
   const user = req.user
 
   try {
-      const carta = {
-        NOMCAR: req.body.nomcar.toUpperCase(),
-        CONCAR: req.body.concar,
-        FICCAR: req.body.ficcar,
-      }
-      const movimiento = {
-        USUMOV: user.id,
-        TIPMOV: tiposMovimiento.crearCarta,
-      }
+    const carta = {
+      NOMCAR: req.body.nomcar.toUpperCase(),
+      FICCAR: req.body.ficcar.toLowerCase(),
+      CONCAR: req.body.concar,
+    }
+    const movimiento = {
+      USUMOV: user.id,
+      TIPMOV: tiposMovimiento.crearCarta,
+    }
 
-      await axios.post(`http://${serverAPI}:${puertoAPI}/api/cartas/insert`, {
-        carta,
-        movimiento,
-      })
+    await axios.post(`http://${serverAPI}:${puertoAPI}/api/cartas/insert`, {
+      carta,
+      movimiento,
+    })
 
-      res.redirect('/admin/cartas')
+    let html = `<%- include('./includes/header.ejs') %>`
+    html += carta.CONCAR
+    html += `<%- include('./includes/footer.ejs') %>`
+
+    fs.writeFile(`./src/public/templates/${carta.FICCAR}.ejs`, html, "utf8", (error, data) => { console.log("Write comple"); console.log(error); console.log(data); });
+
+    res.redirect('/admin/cartas')
   } catch (error) {
     if (error.response.status === 400) {
       res.render("admin/error400", {
@@ -206,7 +213,7 @@ export const update = async (req, res) => {
   const carta = {
     IDCART: req.body.idcart,
     NOMCAR: req.body.nomcar.toUpperCase(),
-    FICCAR: req.body.ficcar,
+    FICCAR: req.body.ficcar.toLowerCase(),
     CONCAR: req.body.concar,
   }
   const movimiento = {
@@ -214,12 +221,13 @@ export const update = async (req, res) => {
     TIPMOV: tiposMovimiento.modificarCarta,
   }
 
-  console.log(carta,movimiento);
   try {
     await axios.post(`http://${serverAPI}:${puertoAPI}/api/cartas/update`, {
       carta,
       movimiento,
     })
+
+    fs.writeFile(`./src/public/templates/${carta.FICCAR}.ejs`, carta.CONCAR, "utf8", (error, data) => { console.log("Write comple"); console.log(error); console.log(data); });
 
     res.redirect('/admin/cartas')
   } catch (error) {
@@ -236,9 +244,10 @@ export const update = async (req, res) => {
 }
 export const remove = async (req, res) => {
   const user = req.user
+  const file = req.body.ficcar.toLowerCase()
   const carta = {
     IDCART: req.body.idcart,
-  }
+  }  
   const movimiento = {
     USUMOV: user.id,
     TIPMOV: tiposMovimiento.borrarCarta,
@@ -249,6 +258,17 @@ export const remove = async (req, res) => {
       carta,
       movimiento,
     })
+    
+    fs.stat(`./src/public/templates/${file}.ejs`, function (err, stats) {
+      if (err) {
+        return console.error(err);
+      }
+
+      fs.unlink(`./src/public/templates/${file}.ejs`, function (err) {
+        if (err) return console.log(err);
+        console.log('file deleted successfully');
+      });
+    });
 
     res.redirect('/admin/cartas')
   } catch (error) {
@@ -258,7 +278,7 @@ export const remove = async (req, res) => {
       });
     } else {
       res.render("admin/error500", {
-        alerts: [{ msg: error.response.data.msg }],
+        alerts: [{ msg: error }],
       });
     }
   }

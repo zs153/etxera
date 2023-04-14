@@ -40,6 +40,12 @@
                             placeholder="Buscar..." aria-label="Buscar en cartas">
                         </div>
                       </form>
+                      <a href="/admin/cartas/add" class="btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" height="24" width="24" viewBox="0 0 24 24">
+                          <path d="M11.25 18.75v-6h-6v-1.5h6v-6h1.5v6h6v1.5h-6v6Z" />
+                        </svg>
+                        Nueva carta
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -92,6 +98,7 @@
               <div class="col">
                 <form action="/admin/cartas/delete" method="POST">
                   <input type="hidden" id="idcart" name="idcart" value="">
+                  <input type="hidden" id="ficcar" name="ficcar" value="">
                   <button type="submit" class="btn btn-danger w-100" id="btnUpdate">Borrar carta</button>
                 </form>
               </div>

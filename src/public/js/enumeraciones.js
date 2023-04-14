@@ -22,6 +22,11 @@ export const estadosEnvio = {
   pendiente: 0,
   enviado: 1,
 }
+export const tiposPerfil = {
+  general: 1,
+  informador: 3,
+  liquidador: 8,
+}
 
 /* arrays */
 export const arrTiposRol = [
@@ -36,4 +41,9 @@ export const arrEstadosUsuario = [
 export const arrEstadosEnvio = [
   { id: 0, des: 'PENDIENTE' },
   { id: 1, des: 'ENVIADO' },
+]
+export const arrTiposPerfil = [
+  { id: 1, des: 'GENERAL' },
+  { id: 3, des: 'INFORMADOR' },
+  { id: 8, des: 'LIQUIDADOR' },
 ]

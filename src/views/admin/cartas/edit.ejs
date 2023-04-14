@@ -19,7 +19,7 @@
             <div class="container-xl">
               <div class="row">
                 <div class="col-12">
-                  <div class="card mt-3">
+                  <div class="card mt-1">
                     <form action="/admin/cartas/update" method="POST" onsubmit="return validate();">
                       <input type="hidden" name="idcart" value="<%= datos.carta.IDCART %>">
                       <div class="card-header">
@@ -42,7 +42,7 @@
                               <div class="input-control">
                                 <label class="form-label required">Fichero</label>
                                 <input type="text" name="ficcar" id="ficcar" class="form-control" style="text-transform: lowercase;"
-                                  value="<%= datos.carta.FICCAR %>" />
+                                  value="<%= datos.carta.FICCAR %>" pattern="[a-zA-Z0-9_]+"/>
                                 <div class="invalid-feedback"></div>
                               </div>
                             </div>
@@ -52,7 +52,7 @@
                           <div class="col-12">
                             <div class="mb-1">
                               <div class="input-control">
-                                <label class="form-label required">Contenido carta</label>
+                                <label class="form-label">Contenido carta</label>
                                 <textarea name="concar" id="editor1"><%= datos.carta.CONCAR %></textarea>
                                 <div class="invalid-feedback"></div>
                               </div>
@@ -80,19 +80,28 @@
   <script src="/js/ckeditor/ckeditor.js"></script>
   <script>
     CKEDITOR.replace('editor1', {
-      height: 400
+      height: 250
     });
   </script>
   <script>
     const nomcar = document.getElementById('nomcar')
+    const ficcar = document.getElementById('ficcar')
 
     const validate = () => {
       const nomcarValue = nomcar.value.trim()
+      const ficcarValue = ficcar.value.trim()
 
       if (nomcarValue === '') {
         setError(nomcar, 'Descripción requerida')
         setTimeout(function () {
           setSuccess(nomcar)
+        }, 3000)
+        return false
+      }
+      if (ficcarValue === '') {
+        setError(ficcar, 'Fichero requerido')
+        setTimeout(function () {
+          setSuccess(ficcar)
         }, 3000)
         return false
       }

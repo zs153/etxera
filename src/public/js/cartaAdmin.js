@@ -99,7 +99,7 @@ const buildTable = (state) => {
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link" onclick="{document.getElementById('idcart').value ='${element.IDCART}', document.getElementById('msgbor').innerHTML ='<p>${element.NOMCAR}</p>'}" data-bs-toggle="modal" data-bs-target="#modal-borrar">
+            <a href="#" class="nav-link" onclick="{document.getElementById('idcart').value ='${element.IDCART}', document.getElementById('ficcar').value ='${element.FICCAR}', document.getElementById('msgbor').innerHTML ='<p>${element.NOMCAR}</p>'}" data-bs-toggle="modal" data-bs-target="#modal-borrar">
               <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-inline me-2" width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke-width=".4" fill="none" d="M7.85 19.575q-.6 0-1.025-.425-.425-.425-.425-1.025v-12.1h-.975V5.4h3.6v-.675H15V5.4h3.6v.625h-.975V18.15q0 .6-.425 1.013-.425.412-1.025.412Zm9.125-13.55H7.05v12.1q0 .35.225.575.225.225.575.225h8.325q.3 0 .55-.25.25-.25.25-.55Zm-6.85 10.925h.625V8h-.625Zm3.15 0h.625V8h-.625ZM7.05 6.025V18.925 18.125Z"/>
               </svg>

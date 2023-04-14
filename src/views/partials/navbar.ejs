@@ -3,7 +3,7 @@
     <div class="container-xl">
       <ul class="navbar-nav">
         <li class="nav-item <%- opcion === 'INICIO' ? 'active':'' %>">
-          <a class="nav-link" href="/admin">
+          <a class="nav-link" href="/user">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" height="24" width="24" viewBox="0 0 24 24">
               <path d="M6.05 18.95H9.9V13.1h4.2v5.85h3.85V10L12 5.5 6.05 10Zm-.625.625v-9.9L12 4.7l6.6 5v9.875h-5.125V13.75H10.55v5.825ZM12 12.225Z" />
             </svg>
@@ -22,12 +22,6 @@
                     <path stroke-width=".3" d="M17.275 8.7h1.35V7.375h-1.35Zm0 3.975h1.35v-1.35h-1.35Zm0 3.95h1.35V15.3h-1.35Zm-1.6 2.95v-.625h5.275V5.05h-9.775v2.5l-.625-.45V4.425h11.025v15.15Zm-13.25 0v-7.9l5.6-3.975 5.6 3.975v7.9H9.45V15.3H6.6v4.275Zm.65-.625h2.9v-4.3H10.1v4.3H13V12L8.025 8.525 3.075 12Zm12.6-8.175ZM10.1 18.95v-4.3H5.975v4.3-4.3H10.1Z" />
                   </svg>
                   Cartas
-                </a>
-                <a href="/admin/enlaces" class="dropdown-item">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" fill="none">
-                    <path stroke-width=".3" d="m4.25 19.675 3.3-9.225 5.925 5.925Zm1.025-1.025 7-2.5-4.5-4.5Zm7.75-5.7-.475-.475 5.25-5.25q.65-.65 1.613-.65.962 0 1.637.65l.275.3-.425.45-.275-.275q-.5-.5-1.187-.5-.688 0-1.188.5Zm-3.05-3.025L9.5 9.45l.6-.6q.625-.625.625-1.475 0-.85-.625-1.45l-.6-.6.475-.475.6.6q.8.8.8 1.937 0 1.138-.8 1.938Zm1.525 1.5-.475-.475 3.25-3.25q.5-.5.5-1.175t-.5-1.175L13 4.05l.475-.45 1.275 1.275q.7.675.7 1.637 0 .963-.7 1.663Zm3.025 3.05L14.05 14l.5-.5q.825-.825 2-.825t1.975.825l.5.5-.45.475-.5-.5q-.65-.65-1.525-.65-.875 0-1.525.65Zm-9.25 4.175Z" />
-                  </svg>
-                  Enlaces
                 </a>
                 <a href="/admin/usuarios" class="dropdown-item" onclick="document.cookie='filtro=;Path=/;Expires=Thu, 01 Jan 1970 00:00:01 GMT;';">
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" fill="none">

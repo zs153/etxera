@@ -179,6 +179,7 @@ export const editPage = async (req, res) => {
       arrEstadosUsuario,
     }
 
+    console.log(oficinas.data);
     res.render('admin/usuarios/edit', { user, datos })
   } catch (error) {
     if (error.response.status === 400) {
@@ -194,7 +195,6 @@ export const editPage = async (req, res) => {
 }
 
 // proc
-
 export const insert = async (req, res) => {
   const user = req.user
   const seed = Math.random().toString(36).substring(2, 10);
@@ -220,6 +220,7 @@ export const insert = async (req, res) => {
         TIPMOV: tiposMovimiento.crearUsuario,
       }
 
+      console.log(recurso);
       await axios.post(`http://${serverAPI}:${puertoAPI}/api/usuarios/insert`, {
         usuario,
         recurso,

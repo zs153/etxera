@@ -1,5 +1,5 @@
 import express from 'express'
-import authRoutes from '../middleware/auth'
+import { verifyTokenAndResp } from "../middleware/auth";
 import {
   addPage,
   cartasPage,
@@ -12,13 +12,13 @@ import {
 const adminRouter = express.Router()
 
 // paginas
-adminRouter.get('/cartas', authRoutes, cartasPage)
-adminRouter.get('/cartas/add', authRoutes, addPage)
-adminRouter.get('/cartas/edit/:id', authRoutes, editPage)
+adminRouter.get('/cartas', verifyTokenAndResp, cartasPage)
+adminRouter.get('/cartas/add', verifyTokenAndResp, addPage)
+adminRouter.get('/cartas/edit/:id', verifyTokenAndResp, editPage)
 
 // procedures
-adminRouter.post('/cartas/insert', authRoutes, insert)
-adminRouter.post('/cartas/update', authRoutes, update)
-adminRouter.post('/cartas/delete', authRoutes, remove)
+adminRouter.post('/cartas/insert', verifyTokenAndResp, insert)
+adminRouter.post('/cartas/update', verifyTokenAndResp, update)
+adminRouter.post('/cartas/delete', verifyTokenAndResp, remove)
 
 export default adminRouter
