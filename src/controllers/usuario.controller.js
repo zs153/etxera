@@ -179,16 +179,15 @@ export const editPage = async (req, res) => {
       arrEstadosUsuario,
     }
 
-    console.log(oficinas.data);
     res.render('admin/usuarios/edit', { user, datos })
   } catch (error) {
-    if (error.response.status === 400) {
+    if (error.response?.status === 400) {
       res.render("admin/error400", {
         alerts: [{ msg: error.response.data.msg }],
       });
     } else {
       res.render("admin/error500", {
-        alerts: [{ msg: error.response.data.msg }],
+        alerts: [{ msg: error }],
       });
     }
   }
@@ -220,7 +219,6 @@ export const insert = async (req, res) => {
         TIPMOV: tiposMovimiento.crearUsuario,
       }
 
-      console.log(recurso);
       await axios.post(`http://${serverAPI}:${puertoAPI}/api/usuarios/insert`, {
         usuario,
         recurso,
@@ -250,6 +248,7 @@ export const update = async (req, res) => {
     NOMUSU: req.body.nomusu.toUpperCase(),
     OFIUSU: req.body.ofiusu,
     ROLUSU: req.body.rolusu,
+    USERID: req.body.userid.toLowerCase(),
     EMAUSU: req.body.emausu,
     PERUSU: req.body.perusu,
     TELUSU: req.body.telusu,
@@ -268,13 +267,13 @@ export const update = async (req, res) => {
 
     res.redirect('/admin/usuarios')
   } catch (error) {
-    if (error.response.status === 400) {
+    if (error.response?.status === 400) {
       res.render("admin/error400", {
         alerts: [{ msg: error.response.data.msg }],
       });
     } else {
       res.render("admin/error500", {
-        alerts: [{ msg: error.response.data.msg }],
+        alerts: [{ msg: error }],
       });
     }
   }

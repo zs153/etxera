@@ -109,7 +109,6 @@ export const cartasPage = async (req, res) => {
 
     res.render('admin/cartas', { user, datos })
   } catch (error) {
-    console.log('error....',error);
     if (error.response?.status === 400) {
       res.render("admin/error400", {
         alerts: [{ msg: error.response.data.msg }],

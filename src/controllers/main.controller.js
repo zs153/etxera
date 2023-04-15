@@ -46,7 +46,6 @@ export const perfilPage = async (req, res) => {
 
     res.render('user/perfil', { user, datos })
   } catch (error) {
-    console.log(error);
     const msg = 'No se ha podido acceder a los datos de la aplicación.'
 
     res.render('user/error400', {
@@ -75,6 +74,7 @@ export const updatePerfil = async (req, res) => {
   const user = req.user
   const usuario = {
     IDUSUA: user.id,
+    USERID: user.userid,
     NOMUSU: req.body.nomusu.toUpperCase(),
     EMAUSU: req.body.emausu,
     TELUSU: req.body.telusu,
