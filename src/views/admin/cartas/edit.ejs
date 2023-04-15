@@ -79,9 +79,11 @@
   <script src="/js/ayuda.min.js"></script>
   <script src="/js/ckeditor/ckeditor.js"></script>
   <script>
-    CKEDITOR.replace('editor1', {
-      height: 250
-    });
+    document.addEventListener("DOMContentLoaded", function () {
+      CKEDITOR.replace( 'editor1',{
+        height: 250
+      });
+    })
   </script>
   <script>
     const nomcar = document.getElementById('nomcar')
