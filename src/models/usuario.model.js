@@ -28,6 +28,7 @@ const updateSql = `BEGIN INICIO_PKG.UPDATEUSUARIO(
   :nomusu, 
   :ofiusu, 
   :rolusu,
+  :userid,
   :emausu, 
   :perusu, 
   :telusu, 
@@ -42,15 +43,9 @@ const removeSql = `BEGIN INICIO_PKG.DELETEUSUARIO(
   :tipmov
 ); END;
 `;
-const cambioSql = `BEGIN INICIO_PKG.CHANGEPASSWORD(
-  :idusua,
-  :pwdusu,
-  :usumov,
-  :tipmov
-); END;
-`;
 const perfilSql = `BEGIN INICIO_PKG.UPDATEPERFILUSUARIO(
   :idusua,
+  :userid,
   :nomusu,
   :emausu,
   :telusu, 
@@ -184,17 +179,6 @@ export const remove = async (bind) => {
   // bind
   // proc
   const ret = await simpleExecute(removeSql, bind)
-
-  if (ret) {
-    return ({ stat: 1, data: bind })
-  } else {
-    return ({ stat: null, data: err })
-  }
-};
-export const change = async (bind) => {
-  // bind
-  // proc
-  const ret = await simpleExecute(cambioSql, bind)
 
   if (ret) {
     return ({ stat: 1, data: bind })

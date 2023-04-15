@@ -99,6 +99,7 @@ export const modificiar = async (req, res) => {
     NOMUSU: req.body.usuario.NOMUSU,
     OFIUSU: req.body.usuario.OFIUSU,
     ROLUSU: req.body.usuario.ROLUSU,
+    USERID: req.body.usuario.USERID,
     EMAUSU: req.body.usuario.EMAUSU,
     PERUSU: req.body.usuario.PERUSU,
     TELUSU: req.body.usuario.TELUSU,
@@ -147,37 +148,11 @@ export const borrar = async (req, res) => {
     res.status(500).json({ stat: null, data: 'Conexión no estableciada' })
   }
 }
-export const cambio = async (req, res) => {
-  // context
-  const cambio = {
-    idusua: req.body.usuario.IDUSUA,
-    pwdusu: req.body.usuario.PWDUSU,
-  }
-  const movimiento = {
-    usumov: req.body.movimiento.USUMOV,
-    tipmov: req.body.movimiento.TIPMOV,
-  }
-
-  const context = Object.assign(cambio, movimiento)
-
-  // proc
-  try {
-    const result = await DAL.change(context)
-
-    if (result.stat) {
-      res.status(200).json({ stat: 1, data: result.data })
-    } else {
-      res.status(400).json({ stat: null, data: 'Contraseña no cambiada' })
-    }
-
-  } catch (err) {
-    res.status(500).json({ stat: null, data: 'Conexión no estableciada' })
-  }
-}
 export const perfil = async (req, res) => {
   // context
   const usuario = {
     IDUSUA: req.body.usuario.IDUSUA,
+    USERID: req.body.usuario.USERID,
     NOMUSU: req.body.usuario.NOMUSU,
     EMAUSU: req.body.usuario.EMAUSU,
     TELUSU: req.body.usuario.TELUSU,

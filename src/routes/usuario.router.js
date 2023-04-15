@@ -5,7 +5,6 @@ import {
   crear,
   modificiar,
   borrar,
-  cambio,
   perfil,
   conEstados,
 } from "../controllers/usuario.controller";
@@ -19,7 +18,6 @@ apiUsuarioRouter.post("/usuarios/stats", conEstados);
 apiUsuarioRouter.post("/usuarios/insert", crear);
 apiUsuarioRouter.post("/usuarios/update", modificiar);
 apiUsuarioRouter.post("/usuarios/delete", borrar);
-apiUsuarioRouter.post("/usuarios/cambio", cambio);
 apiUsuarioRouter.post("/usuarios/perfil", perfil);
 
 export default apiUsuarioRouter;
