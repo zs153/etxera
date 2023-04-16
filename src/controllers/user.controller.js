@@ -2,7 +2,8 @@ import axios from 'axios'
 import nodemailer from 'nodemailer';
 import smtpTransport from 'nodemailer-smtp-transport';
 import ejs from 'ejs'
-import { puertoAPI, serverAPI, serverWEB, puertoWEB } from '../config/settings'
+import { puertoAPI, serverAPI, serverWEB, puertoWEB, serverAUTH, puertoAUTH } from '../config/settings'
+import { tiposMovimiento } from '../public/js/enumeraciones';
 
 const transport = nodemailer.createTransport(smtpTransport({
   host: 'posta.bizkaia.eus',
@@ -130,14 +131,42 @@ export const mainPage = async (req, res) => {
     }
   }
 }
-export const cleanPage = async (req, res) => {
+export const logoutPage = async (req, res) => {
+  const options = {
+    path: "/",
+    sameSite: true,
+    maxAge: 1,
+    httpOnly: true,
+  };
+
+  res.clearCookie("x-access_token");
+  res.cookie("auth", undefined, options);
+  res.cookie("verPan", undefined, options);
+
+  res.redirect('/')
+}
+export const perfilPage = async (req, res) => {
   const user = req.user
-  const datos = {
-    serverWEB,
-    puertoWEB,
+  const context = {
+    USERID: user.userid,
   }
 
-  res.render('user/clean', { user, datos })
+  try {
+    const usuario = await axios.post(`http://${serverAPI}:${puertoAPI}/api/usuario`, {
+      context,
+    })
+    const datos = {
+      usuario: usuario.data.data,
+    }
+
+    res.render('user/perfil', { user, datos })
+  } catch (error) {
+    const msg = 'No se ha podido acceder a los datos de la aplicación.'
+
+    res.render('user/error400', {
+      alerts: [{ msg }],
+    })
+  }
 }
 
 // proc
@@ -159,7 +188,7 @@ export const sendEmail = async (req, res) => {
         console.log(err);
       } else {
         var mailOptions = {
-          from: 'ziur@bizkaia.eus',
+          from: 'etxera@bizkaia.eus',
           to: receiver,
           subject: subject,
           html: data
@@ -179,16 +208,48 @@ export const sendEmail = async (req, res) => {
 
   res.redirect('/user')
 };
+export const changePassword = async (req, res) => {
+  const strUrl = encodeURIComponent(`${serverWEB}:${puertoWEB}`);
+  const options = {
+    path: "/",
+    sameSite: true,
+    maxAge: 1,
+    httpOnly: true,
+  };
+
+  res.clearCookie("x-access_token");
+  res.cookie("auth", undefined, options);
+  res.cookie("noVer", undefined, options);
+
+  res.redirect(`http://${serverAUTH}:${puertoAUTH}/log/change/?valid=${strUrl}`)
+}
+export const updatePerfil = async (req, res) => {
+  const user = req.user
+  const usuario = {
+    IDUSUA: user.id,
+    USERID: user.userid,
+    NOMUSU: req.body.nomusu.toUpperCase(),
+    EMAUSU: req.body.emausu,
+    TELUSU: req.body.telusu,
+  }
+  const movimiento = {
+    USUMOV: user.id,
+    TIPMOV: tiposMovimiento.modificarPerfil,
+  }
+
+  try {
+    await axios.post(`http://${serverAPI}:${puertoAPI}/api/usuarios/perfil`, {
+      usuario,
+      movimiento,
+    })
+
+    res.redirect('/user')
+  } catch (error) {
+    res.redirect('/')
+  }
+}
 
 // helpers
-const hash = async (password) => {
-  return new Promise((resolve, reject) => {
-    scrypt(password, secreto, 64, (err, derivedKey) => {
-      if (err) reject(err);
-      resolve(derivedKey.toString('base64'))
-    });
-  })
-}
 const convertNodeToCursor = (node) => {
   return new Buffer.from(node, 'binary').toString('base64')
 }

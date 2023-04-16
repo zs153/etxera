@@ -230,13 +230,13 @@ export const insert = async (req, res) => {
       throw err
     })
   } catch (error) {
-    if (error.response.status === 400) {
+    if (error.response?.status === 400) {
       res.render("admin/error400", {
         alerts: [{ msg: error.response.data.data }],
       });
     } else {
       res.render("admin/error500", {
-        alerts: [{ msg: error.response.data.data }],
+        alerts: [{ msg: error }],
       });
     }
   }

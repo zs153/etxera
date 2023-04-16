@@ -28,7 +28,7 @@
                   <div class="card-header d-inline-block">
                     <h3 class="card-title">Perfil</h3>
                   </div>
-                  <form action="/perfil" method="POST" onsubmit="return validate();">
+                  <form action="/user/perfil" method="POST" onsubmit="return validate();">
                     <input type="hidden" name="idusua" id="idusua" value="<%- datos.usuario.IDUSUA %>">
                     <div class="card-body">
                       <div class="row">
@@ -94,11 +94,11 @@
                           Aviso: La actualización de la contraseña de usuario implica la finalización de la actual sesión.
                         </p>
                       </div>
-                      <form action="/cambio" method="POST" onsubmit="return validate();">
+                      <form action="/user/cambio" method="POST" onsubmit="return validate();">
                         <input type="hidden" name="idusua" id="idusua" value="<%- datos.usuario.IDUSUA %>">
                         <div class="card-footer text-end">
                           <div class="d-flex">
-                            <a href="/perfil/<%- datos.usuario.USERID %>" class="btn btn-white">Cancelar</a>
+                            <a href="/user/perfil/<%- datos.usuario.USERID %>" class="btn btn-white">Cancelar</a>
                             <button type="submit" class="btn btn-success ms-auto" id="btnPassword">
                               Cambiar contraseña
                             </button>

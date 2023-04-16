@@ -33,31 +33,35 @@ const authRoutes = async (req, res, next) => {
           context,
         })
         
-        const payload = {
-          id: usuario.data.data.IDUSUA,
-          userid: usuario.data.data.USERID,
-          rol: usuario.data.data.ROLUSU,
-          oficina: usuario.data.data.OFIUSU,
-        }
-
-        await V3.encrypt(payload, localKey, {
-          audience: 'urn:example:client',
-          issuer: 'http://localhost:4000',
-          expiresIn: '6 hours'
-        }).then(localToken => {
-          tokenHeader = localToken
-          const options = {
-            path: "/",
-            sameSite: true,
-            maxAge: 1000 * 60 * 60 * 6, // 6 horas
-            httpOnly: true,
+        if (usuario.data.stat) {
+          const payload = {
+            id: usuario.data.data.IDUSUA,
+            userid: usuario.data.data.USERID,
+            rol: usuario.data.data.ROLUSU,
+            oficina: usuario.data.data.OFIUSU,
           }
-
-          res.cookie('auth', localToken, options)
-          res.cookie('verPan', 1, { path: '/admin' })
-        }).catch(err => {
-          throw new Error(err)
-        })
+  
+          await V3.encrypt(payload, localKey, {
+            audience: 'urn:example:client',
+            issuer: 'http://localhost:4000',
+            expiresIn: '6 hours'
+          }).then(localToken => {
+            tokenHeader = localToken
+            const options = {
+              path: "/",
+              sameSite: true,
+              maxAge: 1000 * 60 * 60 * 6, // 6 horas
+              httpOnly: true,
+            }
+  
+            res.cookie('auth', localToken, options)
+            res.cookie('verPan', 1, { path: '/admin' })
+          }).catch(err => {
+            throw new Error(err)
+          })
+        } else {
+          throw 'Usuario no registrado en esta aplicación'
+        }
       }).catch(err => {
         throw new Error(err)
       })
@@ -74,7 +78,6 @@ const authRoutes = async (req, res, next) => {
         rol: ret.rol,
         oficina: ret.oficina,
       }
-      
       next()
     }).catch(err => {
       throw new Error(err)

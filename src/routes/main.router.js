@@ -6,12 +6,12 @@ const mainRouter = express.Router();
 
 // paginas
 mainRouter.get("/", mainPage);
-mainRouter.get('/perfil/:userid', authRoutes, perfilPage)
 mainRouter.get('/clean', authRoutes, cleanPage)
-mainRouter.get("/logout", logoutPage)
+// mainRouter.get('/perfil/:userid', authRoutes, perfilPage)
+// mainRouter.get("/logout", logoutPage)
 
 // procedures
-mainRouter.post('/cambio', authRoutes, changePassword)
-mainRouter.post('/perfil', authRoutes, updatePerfil)
+// mainRouter.post('/cambio', authRoutes, changePassword)
+// mainRouter.post('/perfil', authRoutes, updatePerfil)
 
 export default mainRouter;

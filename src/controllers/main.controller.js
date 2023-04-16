@@ -44,7 +44,7 @@ export const perfilPage = async (req, res) => {
       usuario: usuario.data.data,
     }
 
-    res.render('user/perfil', { user, datos })
+    res.render('perfil', { user, datos })
   } catch (error) {
     const msg = 'No se ha podido acceder a los datos de la aplicación.'
 
@@ -92,6 +92,6 @@ export const updatePerfil = async (req, res) => {
 
     redirect('.')
   } catch (error) {
-    res.redirect('/user')
+    res.redirect('/')
   }
 }
