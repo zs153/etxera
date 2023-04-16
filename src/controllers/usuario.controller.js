@@ -12,7 +12,7 @@ export const usuario = async (req, res) => {
       if (result.data.length === 1) {
         res.status(200).json({ stat: 1, data: result.data[0] })
       } else {
-        res.status(200).json({ stat: 1, data: result.data })
+        res.status(200).json({ stat: null, data: 'La consulta devuelve multiples resultados' })
       }
     } else {
       res.status(400).json({ stat: null, data: 'Usuario no encontrado' })
@@ -87,7 +87,6 @@ export const crear = async (req, res) => {
     } else {
       res.status(400).json({ stat: null, data: 'Usuario no insertado' })
     }
-
   } catch (err) {
     res.status(500).json({ stat: null, data: 'Conexión no estableciada' })
   }
