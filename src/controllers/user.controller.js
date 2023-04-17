@@ -13,6 +13,7 @@ const transport = nodemailer.createTransport(smtpTransport({
   }
 }));
 
+
 // page
 export const mainPage = async (req, res) => {
   const user = req.user
@@ -175,7 +176,7 @@ export const sendEmail = async (req, res) => {
     IDCART: req.body.idcart,
   }
   const receiver = req.body.email
-  const subject = "Renta 2022 Actividades"
+  const subject = "Renta 2022"
   const url = `https://www.bizkaia.eus/es/inicio`
 
   try {
@@ -203,7 +204,7 @@ export const sendEmail = async (req, res) => {
       }
     });
   } catch (error) {
-    
+    return console.log(error);
   }
 
   res.redirect('/user')

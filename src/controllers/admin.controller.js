@@ -192,7 +192,7 @@ export const insert = async (req, res) => {
     html += carta.CONCAR
     html += `<%- include('./includes/footer.ejs') %>`
 
-    fs.writeFile(`./src/public/templates/${carta.FICCAR}.ejs`, html, "utf8", (error, data) => { console.log("Write comple"); console.log(error); console.log(data); });
+    fs.writeFile(__dirname + `/../public/templates/${carta.FICCAR}.ejs`, html, "utf8", (error, data) => { console.log("Write comple"); console.log(error); console.log(data); });
 
     res.redirect('/admin/cartas')
   } catch (error) {
@@ -226,7 +226,7 @@ export const update = async (req, res) => {
       movimiento,
     })
 
-    fs.writeFile(`./src/public/templates/${carta.FICCAR}.ejs`, carta.CONCAR, "utf8", (error, data) => { console.log("Write comple"); console.log(error); console.log(data); });
+    fs.writeFile(__dirname + `/../public/templates/${carta.FICCAR}.ejs`, carta.CONCAR, "utf8", (error, data) => { console.log("Write comple"); console.log(error); console.log(data); });
 
     res.redirect('/admin/cartas')
   } catch (error) {
@@ -258,12 +258,12 @@ export const remove = async (req, res) => {
       movimiento,
     })
     
-    fs.stat(`./src/public/templates/${file}.ejs`, function (err, stats) {
+    fs.stat(__dirname + `/../public/templates/${file}.ejs`, function (err, stats) {
       if (err) {
         return console.error(err);
       }
 
-      fs.unlink(`./src/public/templates/${file}.ejs`, function (err) {
+      fs.unlink(__dirname + `/../public/templates/${file}.ejs`, function (err) {
         if (err) return console.log(err);
         console.log('file deleted successfully');
       });
