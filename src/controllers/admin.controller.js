@@ -176,6 +176,7 @@ export const insert = async (req, res) => {
     const carta = {
       NOMCAR: req.body.nomcar.toUpperCase(),
       FICCAR: req.body.ficcar.toLowerCase(),
+      TIPCAR: req.body.tipcar.toUpperCase(),
       CONCAR: req.body.concar,
     }
     const movimiento = {
@@ -188,9 +189,9 @@ export const insert = async (req, res) => {
       movimiento,
     })
 
-    let html = `<%- include('./includes/header.ejs') %>`
+    let html = `<%- include('${__dirname}/../public/templates/includes/header.ejs') %>`
     html += carta.CONCAR
-    html += `<%- include('./includes/footer.ejs') %>`
+    html += `<%- include('${__dirname}/../public/templates/includes/footer.ejs') %>`
 
     fs.writeFile(__dirname + `/../public/templates/${carta.FICCAR}.ejs`, html, "utf8", (error, data) => { console.log("Write comple"); console.log(error); console.log(data); });
 
@@ -213,6 +214,7 @@ export const update = async (req, res) => {
     IDCART: req.body.idcart,
     NOMCAR: req.body.nomcar.toUpperCase(),
     FICCAR: req.body.ficcar.toLowerCase(),
+    TIPCAR: req.body.tipcar.toUpperCase(),
     CONCAR: req.body.concar,
   }
   const movimiento = {
