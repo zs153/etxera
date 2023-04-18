@@ -46,14 +46,18 @@ module.exports.initialize = initialize
 
 function close() {
   return new Promise((resolve, reject) => {
-    httpServer.close((err) => {
-      if (err) {
-        reject(err)
-        return
-      }
+    if (httpServer) {
+      httpServer.close((err) => {
+        if (err) {
+          reject(err)
+          return
+        }
 
+        resolve()
+      })
+    } else {
       resolve()
-    })
+    }
   })
 }
 

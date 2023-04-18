@@ -44,6 +44,7 @@ export const crear = async (req, res) => {
   const carta = {
     NOMCAR: req.body.carta.NOMCAR,
     FICCAR: req.body.carta.FICCAR,
+    TIPCAR: req.body.carta.TIPCAR,
     CONCAR: req.body.carta.CONCAR,
   }
   const movimiento = {
@@ -72,6 +73,7 @@ export const modificiar = async (req, res) => {
     IDCART: req.body.carta.IDCART,
     NOMCAR: req.body.carta.NOMCAR,
     FICCAR: req.body.carta.FICCAR,
+    TIPCAR: req.body.carta.TIPCAR,
     CONCAR: req.body.carta.CONCAR,
   }
   const movimiento = {

@@ -6,6 +6,7 @@ const baseQuery = `SELECT * FROM cartas
 const insertSql = `BEGIN INICIO_PKG.INSERTCARTA(
     :nomcar,
     :ficcar,
+    :tipcar,
     :concar,
     :usumov,
     :tipmov,
@@ -16,6 +17,7 @@ const updateSql = `BEGIN INICIO_PKG.UPDATECARTA(
     :idcart,
     :nomcar,
     :ficcar,
+    :tipcar,
     :concar,
     :usumov,
     :tipmov
@@ -58,7 +60,7 @@ export const findAll = async (context) => {
   if (context.direction === 'next') {
     bind.IDCART = context.cursor.next;
     query = `WITH datos AS (
-      SELECT idcart, nomcar, ficcar FROM cartas
+      SELECT * FROM cartas
       WHERE
         nomcar LIKE '%' || :part || '%' OR
         :part IS NULL
@@ -71,7 +73,7 @@ export const findAll = async (context) => {
   } else {
     bind.IDCART = context.cursor.prev;
     query = `WITH datos AS (
-      SELECT idcart, nomcar, ficcar FROM cartas
+      SELECT * FROM cartas
       WHERE
         nomcar LIKE '%' || :part || '%' OR
         :part IS NULL

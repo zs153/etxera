@@ -66,6 +66,29 @@ async function shutdown(e) {
   }
 }
 
+async function shutdownWebServer(e) {
+  let err = e;
+  console.log('Shutting down application')
+
+  try {
+    console.log('Closing web server module')
+
+    await webServer.close()
+  } catch (e) {
+    console.error(e)
+
+    err = err || e
+  }
+
+  console.log('Exiting process')
+
+  if (err) {
+    process.exit(1) // Non-zero failure code
+  } else {
+    process.exit(0)
+  }
+}
+
 process.once('SIGTERM', () => {
   console.log('Received SIGTERM')
 
@@ -75,7 +98,8 @@ process.once('SIGTERM', () => {
 process.once('SIGINT', () => {
   console.log('Received SIGINT')
 
-  shutdown()
+  //shutdown()
+  shutdownWebServer()
 })
 
 process.once('uncaughtException', (err) => {

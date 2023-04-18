@@ -7,7 +7,7 @@ const initialize = async () => {
 module.exports.initialize = initialize
 
 const close = async () => {
-  await oracledb.getPool().close(0)
+  await oracledb.getPool().close(0)  //close(10)
 }
 module.exports.close = close
 
