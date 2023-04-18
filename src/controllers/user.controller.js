@@ -177,14 +177,13 @@ export const sendEmail = async (req, res) => {
   }
   const receiver = req.body.email
   const subject = "Renta 2022"
-  const url = `https://www.bizkaia.eus/es/inicio`
 
   try {
     const carta = await axios.post(`http://${serverAPI}:${puertoAPI}/api/carta`, {
       context
     })
 
-    ejs.renderFile(__dirname + `/../public/templates/${carta.data.data.FICCAR}.ejs`, { url }, (err, data) => {
+    ejs.renderFile(__dirname + `/../public/templates/${carta.data.data.FICCAR}.ejs`, (err, data) => {
       if (err) {
         console.log(err);
       } else {
@@ -192,7 +191,12 @@ export const sendEmail = async (req, res) => {
           from: 'etxera@bizkaia.eus',
           to: receiver,
           subject: subject,
-          html: data
+          html: data,
+          attachments: [{
+              filename: 'logoDFB.jpg',
+              path: __dirname + '/../public/img/logoDFB.jpg',
+              cid: 'unique@dfb'
+            }]
         };
 
         transport.sendMail(mailOptions, (error, info) => {

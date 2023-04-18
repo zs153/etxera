@@ -228,7 +228,11 @@ export const update = async (req, res) => {
       movimiento,
     })
 
-    fs.writeFile(__dirname + `/../public/templates/${carta.FICCAR}.ejs`, carta.CONCAR, "utf8", (error, data) => { console.log("Write comple"); console.log(error); console.log(data); });
+    let html = `<%- include('${__dirname}/../public/templates/includes/header.ejs') %>`
+    html += carta.CONCAR
+    html += `<%- include('${__dirname}/../public/templates/includes/footer.ejs') %>`
+
+    fs.writeFile(__dirname + `/../public/templates/${carta.FICCAR}.ejs`, html, "utf8", (error, data) => { console.log("Write comple"); console.log(error); console.log(data); });
 
     res.redirect('/admin/cartas')
   } catch (error) {

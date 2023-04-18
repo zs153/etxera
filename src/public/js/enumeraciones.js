@@ -21,6 +21,10 @@ export const estadosUsuario = {
   reserva: 0,
   activo: 1,
 }
+export const idioma = {
+  castellano: 1,
+  euskera: 2,
+}
 export const estadosEnvio = {
   pendiente: 0,
   enviado: 1,
@@ -40,6 +44,10 @@ export const arrTiposRol = [
 export const arrEstadosUsuario = [
   { id: 0, des: 'RESERVA' },
   { id: 1, des: 'ACTIVO' },
+]
+export const arrIdioma = [
+  { id: 1, des: 'CASTELLANO' },
+  { id: 2, des: 'EUSKERA' },
 ]
 export const arrEstadosEnvio = [
   { id: 0, des: 'PENDIENTE' },
