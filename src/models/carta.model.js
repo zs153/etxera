@@ -7,6 +7,7 @@ const insertSql = `BEGIN INICIO_PKG.INSERTCARTA(
     :nomcar,
     :ficcar,
     :tipcar,
+    :idicar,
     :concar,
     :usumov,
     :tipmov,
@@ -18,6 +19,7 @@ const updateSql = `BEGIN INICIO_PKG.UPDATECARTA(
     :nomcar,
     :ficcar,
     :tipcar,
+    :idicar,
     :concar,
     :usumov,
     :tipmov
@@ -33,12 +35,9 @@ const removeSql = `BEGIN INICIO_PKG.DELETECARTA(
 export const find = async (context) => {
   // bind
   let query = baseQuery;
-  let bind = {};
+  let bind = context
 
-  if (context.IDCART) {
-    bind.IDCART = context.IDCART;
-    query += `WHERE idcart = :idcart`;
-  } 
+  query += `WHERE idcart = :idcart`;
 
   // proc
   const ret = await simpleExecute(query, bind)
