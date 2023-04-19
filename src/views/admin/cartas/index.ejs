@@ -55,7 +55,8 @@
                       <tr class="header">
                         <th class="w-4"></th>
                         <th>Descripción</th>
-                        <th>Tipo</th>
+                        <th>Categoria</th>
+                        <th class="w-5">Idioma</th>
                         <th class="w-5"></th>
                       </tr>
                     </thead>
@@ -117,6 +118,7 @@
     const cursor = <%- JSON.stringify(datos.cursor) %>
     const hasNextUsers = <%- datos.hasNextCartas %>
     const hasPrevUsers = <%- datos.hasPrevCartas %>
+    const idiomas = <%- JSON.stringify(datos.arrIdioma) %>
 
     let state = {
       'querySet': orgList,

@@ -91,6 +91,16 @@ const buildTable = (state) => {
     // col4
     cell = document.createElement('td')
     cell.classList.add("w-5")
+    cell.innerHTML = `<div class="d-flex align-items-center">
+      <div class="flex-fill">
+        <div class="font-weight-medium">${idiomas[element.IDICAR -1].des}</div>
+      </div>
+    </div>`
+    row.appendChild(cell)
+
+    // col5
+    cell = document.createElement('td')
+    cell.classList.add("w-5")
     cell.innerHTML = `<ul class="dots-menu">
       <li class="nav-item drop-right">
         <a href="#" class="nav-link">

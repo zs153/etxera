@@ -3,7 +3,7 @@ import nodemailer from 'nodemailer';
 import smtpTransport from 'nodemailer-smtp-transport';
 import ejs from 'ejs'
 import { puertoAPI, serverAPI, serverWEB, puertoWEB, serverAUTH, puertoAUTH } from '../config/settings'
-import { tiposMovimiento } from '../public/js/enumeraciones';
+import { tiposMovimiento, idioma, arrIdioma } from '../public/js/enumeraciones';
 
 const transport = nodemailer.createTransport(smtpTransport({
   host: 'posta.bizkaia.eus',
@@ -116,6 +116,7 @@ export const mainPage = async (req, res) => {
       hasPrevCartas,
       hasNextCartas,
       cursor: convertNodeToCursor(JSON.stringify(cursor)),
+      arrIdioma,
     }
 
 
@@ -174,6 +175,7 @@ export const perfilPage = async (req, res) => {
 export const sendEmail = async (req, res) => {
   const context = {
     IDCART: req.body.idcart,
+    IDICAR: req.body.idicar,
   }
   const receiver = req.body.email
   const subject = "Renta 2022"
@@ -183,30 +185,37 @@ export const sendEmail = async (req, res) => {
       context
     })
 
-    ejs.renderFile(__dirname + `/../public/templates/${carta.data.data.FICCAR}.ejs`, (err, data) => {
-      if (err) {
-        console.log(err);
-      } else {
-        var mailOptions = {
-          from: 'etxera@bizkaia.eus',
-          to: receiver,
-          subject: subject,
-          html: data,
-          attachments: [{
+    if (carta.data.stat) {
+      const fichero = parseInt(carta.data.data.IDICAR) === idioma.castellano ? `${carta.data.data.FICCAR}Cas.ejs` : `${carta.data.data.FICCAR}Eus.ejs`
+
+      console.log('fichero...',fichero);
+      ejs.renderFile(__dirname + `/../public/templates/${fichero}`, (err, data) => {
+        if (err) {
+          console.log(err);
+        } else {
+          var mailOptions = {
+            from: 'etxera@bizkaia.eus',
+            to: receiver,
+            subject: subject,
+            html: data,
+            attachments: [{
               filename: 'logoDFB.jpg',
               path: __dirname + '/../public/img/logoDFB.jpg',
               cid: 'unique@dfb'
             }]
-        };
+          };
 
-        transport.sendMail(mailOptions, (error, info) => {
-          if (error) {
-            return console.log(error);
-          }
-          console.log('Message sent: %s', info.messageId);
-        });
-      }
-    });
+          transport.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              return console.log(error);
+            }
+            console.log('Message sent: %s', info.messageId);
+          });
+        }
+      });
+    } else {
+      console.log('La carta no existe');
+    }
   } catch (error) {
     return console.log(error);
   }

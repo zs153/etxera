@@ -2,6 +2,7 @@ import axios from 'axios'
 import fs from "fs";
 import { puertoAPI, serverAPI } from '../config/settings'
 import { tiposMovimiento } from '../public/js/enumeraciones'
+import { idioma, arrIdioma } from '../public/js/enumeraciones';
 
 export const cartasPage = async (req, res) => {
   const user = req.user
@@ -104,6 +105,7 @@ export const cartasPage = async (req, res) => {
       hasPrevCartas,
       hasNextCartas,
       cursor: convertNodeToCursor(JSON.stringify(cursor)),
+      arrIdioma,
     }
 
 
@@ -125,6 +127,7 @@ export const addPage = async (req, res) => {
 
   try {
     const datos = {
+      arrIdioma,
     }
 
     res.render('admin/cartas/add', { user, datos })
@@ -152,17 +155,19 @@ export const editPage = async (req, res) => {
     })
     const datos = {
       carta: carta.data.data,
+      arrIdioma,
     }
 
+    console.log(datos);
     res.render('admin/cartas/edit', { user, datos })
   } catch (error) {
-    if (error.response.status === 400) {
+    if (error.response?.status === 400) {
       res.render("admin/error400", {
         alerts: [{ msg: error.response.data.msg }],
       });
     } else {
       res.render("admin/error500", {
-        alerts: [{ msg: error.response.data.msg }],
+        alerts: [{ msg: error }],
       });
     }
   }
@@ -177,6 +182,7 @@ export const insert = async (req, res) => {
       NOMCAR: req.body.nomcar.toUpperCase(),
       FICCAR: req.body.ficcar.toLowerCase(),
       TIPCAR: req.body.tipcar.toUpperCase(),
+      IDICAR: req.body.idicar,
       CONCAR: req.body.concar,
     }
     const movimiento = {
@@ -189,21 +195,31 @@ export const insert = async (req, res) => {
       movimiento,
     })
 
-    let html = `<%- include('${__dirname}/../public/templates/includes/header.ejs') %>`
-    html += carta.CONCAR
-    html += `<%- include('${__dirname}/../public/templates/includes/footer.ejs') %>`
+    let html = ''
+    let fichero = ''
+    if (parseInt(carta.IDICAR) === idioma.castellano) {
+      html = `<%- include('${__dirname}/../public/templates/includes/headerCas.ejs') %>`
+      html += carta.CONCAR
+      html += `<%- include('${__dirname}/../public/templates/includes/footerCas.ejs') %>`
+      fichero = `${carta.FICCAR}Cas.ejs`
+    } else {
+      html = `<%- include('${__dirname}/../public/templates/includes/headerEus.ejs') %>`
+      html += carta.CONCAR
+      html += `<%- include('${__dirname}/../public/templates/includes/footerEus.ejs') %>`      
+      fichero = `${carta.FICCAR}Eus.ejs`
+    }
 
-    fs.writeFile(__dirname + `/../public/templates/${carta.FICCAR}.ejs`, html, "utf8", (error, data) => { console.log("Write comple"); console.log(error); console.log(data); });
+    fs.writeFile(__dirname + `/../public/templates/${fichero}`, html, "utf8", (error, data) => { console.log("Write comple"); console.log(error); console.log(data); });
 
     res.redirect('/admin/cartas')
   } catch (error) {
-    if (error.response.status === 400) {
+    if (error.response?.status === 400) {
       res.render("admin/error400", {
         alerts: [{ msg: error.response.data.data }],
       });
     } else {
       res.render("admin/error500", {
-        alerts: [{ msg: error.response.data.data }],
+        alerts: [{ msg: error }],
       });
     }
   }
@@ -215,6 +231,7 @@ export const update = async (req, res) => {
     NOMCAR: req.body.nomcar.toUpperCase(),
     FICCAR: req.body.ficcar.toLowerCase(),
     TIPCAR: req.body.tipcar.toUpperCase(),
+    IDICAR: req.body.idicar,
     CONCAR: req.body.concar,
   }
   const movimiento = {
@@ -228,11 +245,21 @@ export const update = async (req, res) => {
       movimiento,
     })
 
-    let html = `<%- include('${__dirname}/../public/templates/includes/header.ejs') %>`
-    html += carta.CONCAR
-    html += `<%- include('${__dirname}/../public/templates/includes/footer.ejs') %>`
+    let html = ''
+    let fichero = ''
+    if (parseInt(carta.IDICAR) === idioma.castellano) {
+      html = `<%- include('${__dirname}/../public/templates/includes/headerCas.ejs') %>`
+      html += carta.CONCAR
+      html += `<%- include('${__dirname}/../public/templates/includes/footerCas.ejs') %>`
+      fichero = `${carta.FICCAR}Cas.ejs`
+    } else {
+      html = `<%- include('${__dirname}/../public/templates/includes/headerEus.ejs') %>`
+      html += carta.CONCAR
+      html += `<%- include('${__dirname}/../public/templates/includes/footerEus.ejs') %>`
+      fichero = `${carta.FICCAR}Eus.ejs`
+    }
 
-    fs.writeFile(__dirname + `/../public/templates/${carta.FICCAR}.ejs`, html, "utf8", (error, data) => { console.log("Write comple"); console.log(error); console.log(data); });
+    fs.writeFile(__dirname + `/../public/templates/${fichero}`, html, "utf8", (error, data) => { console.log("Write comple"); console.log(error); console.log(data); });
 
     res.redirect('/admin/cartas')
   } catch (error) {

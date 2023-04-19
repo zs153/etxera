@@ -47,11 +47,27 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-12">
+                      <div class="col-8">
                         <div class="mb-1">
                           <div class="input-control">
                             <label class="form-label required">Categoría</label>
                             <input type="text" name="tipcar" id="tipcar" class="form-control" style="text-transform: uppercase;" value=""/>
+                            <div class="invalid-feedback"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="mb-1">
+                          <div class="input-control">
+                            <div class="form-label required">Idioma</div>
+                            <select class="form-select form-control" id="cboidi" name="idicar" value="">
+                              <option value="0">SELECCIONE IDIOMA</option>
+                              <% datos.arrIdioma.map(element=> { %>
+                                <option value="<%= element.id %>">
+                                  <%- element.des %>
+                                </option>
+                                <% }) %>
+                            </select>
                             <div class="invalid-feedback"></div>
                           </div>
                         </div>
@@ -98,11 +114,13 @@
     const nomcar = document.getElementById('nomcar')
     const ficcar = document.getElementById('ficcar')
     const tipcar = document.getElementById('tipcar')
+    const cboidi = document.getElementById('cboidi')
 
     const validate = () => {
       const nomcarValue = nomcar.value.trim()
       const ficcarValue = ficcar.value.trim()
       const tipcarValue = tipcar.value.trim()
+      const cboidiValue = cboidi.value
 
       if (nomcarValue === '') {
         setError(nomcar, 'Descripción requerida')
@@ -122,6 +140,13 @@
         setError(tipcar, 'Categoría requerida')
         setTimeout(function () {
           setSuccess(tipcar)
+        }, 3000)
+        return false
+      }
+      if (cboidiValue === '0') {
+        setError(cboidi, 'Idioma requerido')
+        setTimeout(function () {
+          setSuccess(cboidi)
         }, 3000)
         return false
       }
