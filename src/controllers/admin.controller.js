@@ -200,12 +200,12 @@ export const insert = async (req, res) => {
     if (parseInt(carta.IDICAR) === idioma.castellano) {
       html = `<%- include('${__dirname}/../public/templates/includes/headerCas.ejs') %>`
       html += carta.CONCAR
-      html += `<%- include('${__dirname}/../public/templates/includes/footerCas.ejs') %>`
+      //html += `<%- include('${__dirname}/../public/templates/includes/footerCas.ejs') %>`
       fichero = `${carta.FICCAR}Cas.ejs`
     } else {
       html = `<%- include('${__dirname}/../public/templates/includes/headerEus.ejs') %>`
       html += carta.CONCAR
-      html += `<%- include('${__dirname}/../public/templates/includes/footerEus.ejs') %>`      
+      //html += `<%- include('${__dirname}/../public/templates/includes/footerEus.ejs') %>`      
       fichero = `${carta.FICCAR}Eus.ejs`
     }
 
@@ -250,12 +250,12 @@ export const update = async (req, res) => {
     if (parseInt(carta.IDICAR) === idioma.castellano) {
       html = `<%- include('${__dirname}/../public/templates/includes/headerCas.ejs') %>`
       html += carta.CONCAR
-      html += `<%- include('${__dirname}/../public/templates/includes/footerCas.ejs') %>`
+      //html += `<%- include('${__dirname}/../public/templates/includes/footerCas.ejs') %>`
       fichero = `${carta.FICCAR}Cas.ejs`
     } else {
       html = `<%- include('${__dirname}/../public/templates/includes/headerEus.ejs') %>`
       html += carta.CONCAR
-      html += `<%- include('${__dirname}/../public/templates/includes/footerEus.ejs') %>`
+      //html += `<%- include('${__dirname}/../public/templates/includes/footerEus.ejs') %>`
       fichero = `${carta.FICCAR}Eus.ejs`
     }
 
