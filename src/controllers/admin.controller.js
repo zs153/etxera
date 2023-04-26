@@ -158,7 +158,6 @@ export const editPage = async (req, res) => {
       arrIdioma,
     }
 
-    console.log(datos);
     res.render('admin/cartas/edit', { user, datos })
   } catch (error) {
     if (error.response?.status === 400) {
