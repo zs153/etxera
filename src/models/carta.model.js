@@ -62,6 +62,7 @@ export const findAll = async (context) => {
       SELECT * FROM cartas
       WHERE
         nomcar LIKE '%' || :part || '%' OR
+        tipcar LIKE '%' || :part || '%' OR
         :part IS NULL
     )
     SELECT * FROM datos
@@ -75,6 +76,7 @@ export const findAll = async (context) => {
       SELECT * FROM cartas
       WHERE
         nomcar LIKE '%' || :part || '%' OR
+        tipcar LIKE '%' || :part || '%' OR
         :part IS NULL
     )
     SELECT * FROM datos
