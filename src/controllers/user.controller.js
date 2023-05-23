@@ -5,13 +5,21 @@ import ejs from 'ejs'
 import { puertoAPI, serverAPI, serverWEB, puertoWEB, serverAUTH, puertoAUTH } from '../config/settings'
 import { tiposMovimiento, idioma, arrIdioma } from '../public/js/enumeraciones';
 
-const transport = nodemailer.createTransport(smtpTransport({
+const transport = nodemailer.createTransport({
   host: 'posta.bizkaia.eus',
   port: 25,
   tls: {
     rejectUnauthorized: false
   }
-}));
+});
+
+// const transport = nodemailer.createTransport(smtpTransport({
+//   host: 'posta.bizkaia.eus',
+//   port: 25,
+//   tls: {
+//     rejectUnauthorized: false
+//   }
+// }));
 // const transport = nodemailer.createTransport({
 //   host: 'smtp.ethereal.email',
 //   port: 587,
