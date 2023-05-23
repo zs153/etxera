@@ -200,7 +200,7 @@ export const sendEmail = async (req, res) => {
           console.log(err);
         } else {
           var mailOptions = {
-            from: 'etxera@bizkaia.eus',
+            from: 'infoguregida@bizkaia.eus',
             to: receiver,
             subject: subject,
             html: data
