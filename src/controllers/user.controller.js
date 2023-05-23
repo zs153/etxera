@@ -5,21 +5,21 @@ import ejs from 'ejs'
 import { puertoAPI, serverAPI, serverWEB, puertoWEB, serverAUTH, puertoAUTH } from '../config/settings'
 import { tiposMovimiento, idioma, arrIdioma } from '../public/js/enumeraciones';
 
-// const transport = nodemailer.createTransport(smtpTransport({
-//   host: 'posta.bizkaia.eus',
-//   port: 25,
-//   tls: {
-//     rejectUnauthorized: false
-//   }
-// }));
-const transport = nodemailer.createTransport({
-  host: 'smtp.ethereal.email',
-  port: 587,
-  auth: {
-    user: 'albert.carroll21@ethereal.email',
-    pass: '2YXewVdAJw18Hqz6Ca'
+const transport = nodemailer.createTransport(smtpTransport({
+  host: 'posta.bizkaia.eus',
+  port: 25,
+  tls: {
+    rejectUnauthorized: false
   }
-});
+}));
+// const transport = nodemailer.createTransport({
+//   host: 'smtp.ethereal.email',
+//   port: 587,
+//   auth: {
+//     user: 'albert.carroll21@ethereal.email',
+//     pass: '2YXewVdAJw18Hqz6Ca'
+//   }
+// });
 
 // page
 export const mainPage = async (req, res) => {
